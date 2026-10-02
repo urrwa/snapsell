@@ -1,0 +1,8 @@
+{
+  "name": "Remix SnapSell Hero Experience",
+  "description": "SnapSell scroll-driven hero experience with GSAP animation to mobile phone",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
