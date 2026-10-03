@@ -25,7 +25,7 @@ export const FinalMessage: React.FC<FinalMessageProps> = ({ finalContentRef }) =
           {/* Eyebrow Badge */}
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#20B777]/10 border border-[#20B777]/30 text-[#7AE9B4] text-xs font-semibold tracking-wide">
             <Sparkles className="w-3.5 h-3.5 text-[#4ED398]" />
-            <span>Instant digital commerce</span>
+            <span>Made for creators</span>
           </div>
 
           {/* Main Headline */}
@@ -33,27 +33,20 @@ export const FinalMessage: React.FC<FinalMessageProps> = ({ finalContentRef }) =
             className="font-display font-bold text-white tracking-[-0.035em] leading-[1.02] max-w-[680px] text-[clamp(28px,3.8vw,58px)]"
             style={{ textShadow: '0 8px 30px rgba(0,0,0,0.8)' }}
           >
-            Sell digital content <br className="hidden sm:inline" />
-            <span className="emerald-gradient-text">through one secure link</span>
+            Your content.<br />
+            <span className="emerald-gradient-text">One secure link.</span>
           </h2>
 
           {/* Body Description */}
           <p className="text-sm sm:text-base lg:text-lg text-slate-300 font-normal leading-relaxed text-balance max-w-xl">
-            Upload your photos, videos, PDFs and other digital products. Set your price, share your SnapSell link and start earning directly from your audience.
+            Upload. Set your price. Share and get paid.
           </p>
 
-          {/* Payment Badges & Supporting Line */}
-          <div className="p-4 rounded-2xl bg-zinc-900/90 border border-white/10 text-xs sm:text-sm text-slate-300 space-y-3 w-full max-w-xl shadow-lg">
-            <p className="leading-snug text-slate-300 font-medium">
-              Accept payments by card, PayPal, Apple Pay, Google Pay and bank transfer—without building a complicated online store.
-            </p>
-            <div className="flex flex-wrap items-center justify-center lg:justify-start gap-2 pt-2 border-t border-white/10 text-[11px] text-[#7AE9B4]/90 font-medium">
-              <span className="px-2 py-0.5 rounded-md bg-white/5 border border-white/10">Card</span>
-              <span className="px-2 py-0.5 rounded-md bg-white/5 border border-white/10">PayPal</span>
-              <span className="px-2 py-0.5 rounded-md bg-white/5 border border-white/10">Apple Pay</span>
-              <span className="px-2 py-0.5 rounded-md bg-white/5 border border-white/10">Google Pay</span>
-              <span className="px-2 py-0.5 rounded-md bg-white/5 border border-white/10">Bank Transfer</span>
-            </div>
+          {/* A compact row replaces the repeated payment explanation. */}
+          <div aria-label="Accepted payment methods" className="flex flex-wrap items-center gap-2 text-[11px] text-[#7AE9B4]/90 font-medium">
+            {['Card', 'PayPal', 'Apple Pay', 'Google Pay', 'Bank Transfer'].map((method) => (
+              <span key={method} className="px-2.5 py-1 rounded-md bg-white/5 border border-white/10">{method}</span>
+            ))}
           </div>
 
           {/* Action Buttons */}
@@ -71,14 +64,14 @@ export const FinalMessage: React.FC<FinalMessageProps> = ({ finalContentRef }) =
               type="button"
               className="glass-pill-btn w-full sm:w-auto px-7 py-3.5 rounded-full text-sm font-semibold cursor-pointer"
             >
-              See How It Works
+              How It Works
             </button>
           </div>
 
           {/* Microcopy Guarantee */}
           <div className="flex items-center gap-2 text-xs text-slate-400 pt-1">
             <ShieldCheck className="w-4 h-4 text-emerald-400 shrink-0" />
-            <span>No monthly subscription. SnapSell only earns when you make a sale.</span>
+            <span>No monthly fees. Pay only when you sell.</span>
           </div>
 
         </div>
