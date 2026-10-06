@@ -547,14 +547,14 @@ export const de: TranslationKeys = {
 
   // Product Cards
   productCards: {
-    delivery: '1-Klick-Lieferung',
+    delivery: 'Sofort-Download',
     buy: 'Kaufen',
     items: {
-      'card-1': { title: 'Noir Muse Collection',          subtitle: '48 redaktionelle RAW-Fotos' },
-      'card-2': { title: 'Afterdark Cinema Pack',         subtitle: '4K Anamorphes Video-Paket' },
-      'card-3': { title: 'Brand Identity Blueprint',      subtitle: '62-seitiger interaktiver Guide' },
-      'card-4': { title: 'Creator Growth Playbook',       subtitle: 'Monetarisierungs-Geheimnisse' },
-      'card-5': { title: 'Emerald Design Kit',            subtitle: 'Presets & Figma-Tokens' },
+      'card-1': { title: 'Noir Portraits',    subtitle: '48 ausdrucksstarke Editorial-Fotos' },
+      'card-2': { title: 'Afterdark Cinema', subtitle: 'Cinematische Clips in 4K' },
+      'card-3': { title: 'Brand Blueprint',  subtitle: '62 Seiten für deine Markenstrategie' },
+      'card-4': { title: 'Creator Playbook', subtitle: 'Mach deinen Content zum Business' },
+      'card-5': { title: 'Emerald Assets',   subtitle: 'Kreative Presets & Figma-Tokens' },
     },
   },
 

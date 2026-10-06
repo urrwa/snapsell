@@ -545,14 +545,14 @@ export const en = {
 
   // Product Cards
   productCards: {
-    delivery: '1-Click Delivery',
+    delivery: 'Instant Download',
     buy: 'Buy',
     items: {
-      'card-1': { title: 'Noir Muse Collection',      subtitle: '48 Editorial Raw Photos' },
-      'card-2': { title: 'Afterdark Cinema Pack',     subtitle: '4K Anamorphic Video Suite' },
-      'card-3': { title: 'Brand Identity Blueprint',  subtitle: '62-Page Interactive Guide' },
-      'card-4': { title: 'Creator Growth Playbook',   subtitle: 'Monetization Secrets' },
-      'card-5': { title: 'Emerald Design Kit',        subtitle: 'Presets & Figma Tokens' },
+      'card-1': { title: 'Noir Portraits',    subtitle: '48 Expressive Editorial Photos' },
+      'card-2': { title: 'Afterdark Cinema', subtitle: 'Cinematic Clips in 4K' },
+      'card-3': { title: 'Brand Blueprint',  subtitle: '62 Pages of Brand Strategy' },
+      'card-4': { title: 'Creator Playbook', subtitle: 'Turn Your Content into a Business' },
+      'card-5': { title: 'Emerald Assets',   subtitle: 'Creative Presets & Figma Tokens' },
     },
   },
 

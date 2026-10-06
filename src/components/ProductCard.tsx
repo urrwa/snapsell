@@ -57,7 +57,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, cardRef, inde
         <div 
           className="absolute inset-0 pointer-events-none"
           style={{
-            background: 'linear-gradient(to bottom, rgba(0, 0, 0, 0.04) 25%, rgba(0, 0, 0, 0.18) 55%, rgba(0, 0, 0, 0.88) 100%)'
+            background: 'linear-gradient(to bottom, rgba(0, 0, 0, 0.04) 20%, rgba(0, 0, 0, 0.22) 50%, rgba(0, 0, 0, 0.92) 100%)'
           }}
         />
 
@@ -73,20 +73,23 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, cardRef, inde
         </div>
 
         {/* Bottom Content */}
-        <div className="absolute bottom-0 left-0 right-0 p-3.5 sm:p-5 z-10 flex flex-col gap-1.5">
-          <div className="flex items-center gap-1 text-[10px] sm:text-xs text-[#7AE9B4] font-medium tracking-wide min-w-0">
-            <Sparkles className="w-3 h-3 text-[#4ED398] shrink-0" />
-            <span className="truncate min-w-0">{subtitle}</span>
+        <div className="absolute bottom-0 left-0 right-0 px-3.5 sm:px-5 pt-4 pb-3.5 sm:pb-4 z-10 flex flex-col justify-end" style={{ minHeight: '38%' }}>
+          {/* Subtitle — wraps naturally, 2 lines max */}
+          <div className="flex items-start gap-1 text-[10px] sm:text-[11px] text-[#7AE9B4] font-medium tracking-wide leading-snug mb-1">
+            <Sparkles className="w-3 h-3 text-[#4ED398] shrink-0 mt-px" />
+            <span className="line-clamp-2">{subtitle}</span>
           </div>
 
-          <h3 className="text-xs sm:text-sm md:text-base font-bold text-white tracking-tight leading-snug truncate group-hover:text-[#7AE9B4] transition-colors">
+          {/* Title — wraps onto 2 lines if needed */}
+          <h3 className="text-sm sm:text-[15px] md:text-base font-bold text-white tracking-tight leading-tight line-clamp-2 group-hover:text-[#7AE9B4] transition-colors mb-2.5">
             {title}
           </h3>
 
-          <div className="mt-1.5 pt-2 border-t border-white/10 flex items-center justify-between gap-2 text-[10px] sm:text-xs text-slate-300">
-            <span className="flex items-center gap-1 text-slate-400 whitespace-nowrap min-w-0 truncate">
+          {/* Footer row */}
+          <div className="pt-2 border-t border-white/10 flex items-center justify-between gap-2 text-[10px] sm:text-xs text-slate-300">
+            <span className="flex items-center gap-1 text-slate-400">
               <ShieldCheck className="w-3 h-3 text-[#4ED398]/80 shrink-0" />
-              {t.productCards.delivery}
+              <span className="whitespace-nowrap">{t.productCards.delivery}</span>
             </span>
             <span className="font-semibold text-[#7AE9B4] flex items-center gap-0.5 whitespace-nowrap shrink-0 group-hover:translate-x-1 transition-transform">
               {t.productCards.buy} <ArrowRight className="w-3 h-3" />
