@@ -467,13 +467,14 @@ export function HowItWorksSection() {
               </div>
 
               {/* Customer photo */}
-              <div className="relative w-full rounded-xl overflow-hidden border border-emerald-500/30" style={{height:'90px'}}>
+              <div className="relative w-full rounded-xl overflow-hidden border border-emerald-500/30" style={{height:'120px'}}>
                 <img
-                  src="https://images.unsplash.com/photo-1636625958417-14ae7dab3c5a?fm=jpg&q=75&w=600&auto=format&fit=crop&fit=crop&crop=top"
+                  src="https://images.unsplash.com/photo-1636625958417-14ae7dab3c5a?fm=jpg&q=75&w=600&auto=format&fit=crop&crop=faces"
                   alt="Happy customer"
                   loading="lazy"
                   decoding="async"
-                  className="w-full h-full object-cover object-top"
+                  className="w-full h-full object-cover"
+                  style={{objectPosition:'center 20%'}}
                 />
                 <div className="absolute inset-0 bg-gradient-to-r from-black/40 to-transparent pointer-events-none" />
                 <div className="absolute inset-x-0 bottom-0 h-8 bg-gradient-to-t from-black/70 to-transparent pointer-events-none" />
