@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState, useCallback } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { 
@@ -19,7 +19,11 @@ import {
   CreditCard,
   QrCode,
   Zap,
-  Globe
+  Globe,
+  Send,
+  Pause,
+  Play,
+  ExternalLink
 } from 'lucide-react';
 import { SnapSellLogo } from './SnapSellLogo';
 
@@ -71,6 +75,204 @@ const STEPS: StepData[] = [
     theme: 'dark',
   },
 ];
+
+/* ─── Sharing Animation Stage (Step 04) ────────────────────────────────── */
+const DEMO = {
+  slug: 'snapsell.link/creator-photos',
+  title: 'Creator Photo Collection',
+  price: '$29.00',
+  img: 'images/product-fashion-v2.webp',
+};
+
+// Total cycle = 10 s, phases in seconds
+const PHASE = { copy: 0, paste: 2, send: 4, open: 6, hold: 8, total: 10 };
+
+function ShareAnimStage({ isVisible }: { isVisible: boolean }) {
+  const [phase, setPhase] = useState(0); // 0–4
+  const [playing, setPlaying] = useState(true);
+  const [demoCopied, setDemoCopied] = useState(false);
+  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const startRef = useRef<number>(0);
+  const rafRef = useRef<number>(0);
+  const pausedAtRef = useRef<number>(0);
+
+  const prefersReduced = typeof window !== 'undefined'
+    ? window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    : false;
+
+  const getPhase = (t: number) => {
+    if (t < PHASE.paste) return 0;
+    if (t < PHASE.send) return 1;
+    if (t < PHASE.open) return 2;
+    if (t < PHASE.hold) return 3;
+    return 4;
+  };
+
+  const tick = useCallback(() => {
+    const elapsed = (Date.now() - startRef.current) / 1000;
+    const t = elapsed % PHASE.total;
+    const p = getPhase(t);
+    setPhase(p);
+    setDemoCopied(t >= 1 && t < PHASE.paste + 0.5);
+    rafRef.current = requestAnimationFrame(tick);
+  }, []);
+
+  useEffect(() => {
+    if (prefersReduced) { setPhase(3); return; }
+    if (!isVisible || !playing) return;
+    startRef.current = Date.now() - pausedAtRef.current * 1000;
+    rafRef.current = requestAnimationFrame(tick);
+    return () => { cancelAnimationFrame(rafRef.current); };
+  }, [isVisible, playing, tick, prefersReduced]);
+
+  const togglePlay = () => {
+    if (playing) {
+      pausedAtRef.current = ((Date.now() - startRef.current) / 1000) % PHASE.total;
+      cancelAnimationFrame(rafRef.current);
+    }
+    setPlaying(p => !p);
+  };
+
+  // pointer position per phase
+  const pointerStyle = (targetPhase: number): React.CSSProperties => ({
+    opacity: phase === targetPhase ? 1 : 0,
+    transition: 'opacity 0.3s',
+    position: 'absolute',
+    width: 12, height: 12,
+    borderRadius: '50%',
+    background: 'rgba(74,217,152,0.9)',
+    boxShadow: '0 0 0 3px rgba(74,217,152,0.3)',
+    pointerEvents: 'none',
+    zIndex: 20,
+    animation: phase === targetPhase ? 'ss-pulse 0.8s ease-in-out infinite' : 'none',
+  });
+
+  return (
+    <div className="relative w-full rounded-xl bg-zinc-950 border border-[#20B777]/20 overflow-hidden" style={{minHeight: 148}}>
+      {/* CSS keyframes injected once */}
+      <style>{`
+        @keyframes ss-pulse { 0%,100%{transform:scale(1);opacity:0.9} 50%{transform:scale(1.4);opacity:0.6} }
+        @keyframes ss-fadein { from{opacity:0;transform:translateY(6px)} to{opacity:1;transform:translateY(0)} }
+        @keyframes ss-slideup { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)} }
+        @keyframes ss-bubble { from{opacity:0;transform:scale(0.85) translateX(10px)} to{opacity:1;transform:scale(1) translateX(0)} }
+      `}</style>
+
+      {/* Header row */}
+      <div className="flex items-center justify-between px-2.5 pt-2 pb-1.5">
+        <span className="text-[7.5px] font-bold uppercase tracking-[0.15em] text-slate-500">Sharing demo</span>
+        <button
+          type="button"
+          onClick={togglePlay}
+          aria-label={playing ? 'Pause animation' : 'Play animation'}
+          className="flex items-center gap-1 text-[7px] text-slate-500 hover:text-[#7AE9B4] transition-colors"
+        >
+          {playing ? <Pause className="w-2.5 h-2.5" /> : <Play className="w-2.5 h-2.5" />}
+          <span>{playing ? 'Pause' : 'Play'}</span>
+        </button>
+      </div>
+
+      {/* Stage */}
+      <div className="relative px-2.5 pb-2.5" style={{minHeight: 120}}>
+
+        {/* ── PHASE 0: Copy tap ── */}
+        {(phase === 0 || prefersReduced) && (
+          <div key="p0" className="space-y-1.5" style={{animation:'ss-fadein 0.35s ease'}}>
+            <div className="flex items-center justify-between gap-2 bg-black border border-white/10 rounded-lg px-2 py-1.5 relative">
+              <span className="text-[9px] font-mono text-slate-300 truncate">{DEMO.slug}</span>
+              <div className="relative">
+                <div className={`px-2 py-1 rounded text-[8.5px] font-bold flex items-center gap-1 shrink-0 transition-all duration-300 ${demoCopied ? 'bg-[#4ED398] text-zinc-900' : 'bg-[#20B777] text-zinc-900'}`}>
+                  {demoCopied ? <Check className="w-2.5 h-2.5" /> : <Copy className="w-2.5 h-2.5" />}
+                  <span>{demoCopied ? 'Copied ✓' : 'Copy'}</span>
+                </div>
+                {/* pointer dot on copy btn */}
+                <span style={{...pointerStyle(0), top: -4, right: -4}} />
+              </div>
+            </div>
+            <p className="text-[8px] text-slate-500 text-center">Tapping Copy…</p>
+          </div>
+        )}
+
+        {/* ── PHASE 1: Message compose ── */}
+        {phase === 1 && (
+          <div key="p1" className="space-y-1.5" style={{animation:'ss-fadein 0.35s ease'}}>
+            <div className="bg-zinc-900 border border-white/10 rounded-xl p-2 space-y-1.5">
+              <div className="flex items-center gap-1.5">
+                <div className="w-5 h-5 rounded-full bg-[#20B777]/30 border border-[#20B777]/50 flex items-center justify-center text-[7px] font-bold text-[#7AE9B4]">C</div>
+                <span className="text-[8px] text-slate-400">Chat with customer</span>
+              </div>
+              <div className="bg-black/50 rounded-lg px-2 py-1.5 text-[8.5px] text-slate-200" style={{animation:'ss-slideup 0.4s ease 0.2s both'}}>
+                Hey! Here's my photo collection 📸
+              </div>
+              <div className="bg-black/50 rounded-lg px-2 py-1 text-[8px] font-mono text-[#7AE9B4]" style={{animation:'ss-slideup 0.4s ease 0.6s both'}}>
+                {DEMO.slug}
+              </div>
+            </div>
+            {/* Send btn with pointer */}
+            <div className="flex justify-end relative">
+              <div className="px-2.5 py-1 rounded-lg bg-[#20B777] text-zinc-900 text-[8.5px] font-bold flex items-center gap-1">
+                <Send className="w-2.5 h-2.5" /> Send
+              </div>
+              <span style={{...pointerStyle(1), bottom: -2, right: -2}} />
+            </div>
+          </div>
+        )}
+
+        {/* ── PHASE 2: Sent bubble with link preview ── */}
+        {phase === 2 && (
+          <div key="p2" className="space-y-1.5" style={{animation:'ss-fadein 0.35s ease'}}>
+            {/* Sent bubble */}
+            <div className="flex justify-end">
+              <div className="max-w-[85%] space-y-1" style={{animation:'ss-bubble 0.4s ease'}}>
+                <div className="bg-[#20B777]/20 border border-[#20B777]/30 rounded-xl rounded-tr-sm px-2.5 py-1.5 text-[8.5px] text-slate-200">
+                  Hey! Here's my photo collection 📸
+                </div>
+                {/* Link preview card */}
+                <div className="bg-zinc-900 border border-white/15 rounded-xl overflow-hidden" style={{animation:'ss-slideup 0.4s ease 0.3s both'}}>
+                  <div className="relative h-14 overflow-hidden">
+                    <img src={DEMO.img} alt="" className="w-full h-full object-cover" style={{objectPosition:'center 15%'}} />
+                    <div className="absolute inset-0 bg-gradient-to-t from-zinc-900/80 to-transparent" />
+                  </div>
+                  <div className="px-2 py-1.5">
+                    <div className="text-[8px] font-bold text-white leading-tight">{DEMO.title}</div>
+                    <div className="text-[7px] text-[#7AE9B4] font-mono mt-0.5">{DEMO.slug}</div>
+                  </div>
+                </div>
+                <div className="text-right text-[7px] text-slate-500">Delivered ✓</div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* ── PHASE 3: Customer product page preview ── */}
+        {(phase === 3 || phase === 4) && (
+          <div key="p3" className="space-y-1.5" style={{animation:'ss-fadein 0.35s ease'}}>
+            <div className="bg-zinc-900 border border-[#20B777]/30 rounded-xl overflow-hidden shadow-[0_0_12px_rgba(32,183,119,0.15)]">
+              <div className="relative h-16 overflow-hidden">
+                <img src={DEMO.img} alt={DEMO.title} className="w-full h-full object-cover" style={{objectPosition:'center 15%'}} />
+                <div className="absolute inset-0 bg-gradient-to-t from-zinc-900/90 via-transparent to-transparent" />
+                <div className="absolute bottom-1.5 left-2 right-2 flex items-end justify-between">
+                  <span className="text-[9px] font-bold text-white leading-tight">{DEMO.title}</span>
+                  <span className="text-[9px] font-extrabold text-[#7AE9B4] font-mono">{DEMO.price}</span>
+                </div>
+              </div>
+              <div className="px-2 py-1.5 flex items-center justify-between">
+                <span className="text-[7.5px] text-slate-400 font-mono">{DEMO.slug}</span>
+                <div className="flex items-center gap-1 px-2 py-0.5 rounded-lg bg-[#20B777] text-zinc-900 text-[7.5px] font-bold">
+                  <ExternalLink className="w-2 h-2" /> View Collection
+                </div>
+              </div>
+            </div>
+            {/* tap indicator on card */}
+            {phase === 3 && (
+              <span style={{...pointerStyle(3), top: 24, left: '50%', marginLeft: -6}} />
+            )}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+/* ─────────────────────────────────────────────────────────────────────────── */
 
 export function HowItWorksSection() {
   const sectionRef = useRef<HTMLElement>(null);
@@ -410,7 +612,7 @@ export function HowItWorksSection() {
                 </span>
                 <div className="flex items-center justify-between gap-2 bg-black border border-white/15 rounded-lg px-2 py-1.5">
                   <span className="text-[9.5px] font-mono text-slate-200 truncate">
-                    snapsell.link/alex-luts
+                    snapsell.link/creator-photos
                   </span>
                   <button
                     type="button"
@@ -431,6 +633,9 @@ export function HowItWorksSection() {
                   <div className="p-1.5 rounded-lg bg-zinc-900 border border-white/10 text-center">YouTube / Web</div>
                 </div>
               </div>
+
+              {/* Sharing animation */}
+              <ShareAnimStage isVisible={activeStepIndex === 3} />
             </div>
 
             <div className="p-2 rounded-xl bg-[#20B777]/10 border border-[#20B777]/20 text-center text-[9.5px] text-[#7AE9B4] font-semibold flex items-center justify-center gap-1.5">
