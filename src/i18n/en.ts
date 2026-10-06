@@ -537,6 +537,19 @@ export const en = {
     },
   },
 
+  // Product Cards
+  productCards: {
+    delivery: '1-Click Delivery',
+    buy: 'Buy',
+    items: {
+      'card-1': { title: 'Noir Fashion Vault',     subtitle: '48 Editorial Raw Photos' },
+      'card-2': { title: 'Cinematic LUTs & Clips', subtitle: '4K Anamorphic Video Suite' },
+      'card-3': { title: 'Brand Strategy System',  subtitle: '62-Page Interactive Guide' },
+      'card-4': { title: 'Creator Playbook 2026',  subtitle: 'Monetization Secrets' },
+      'card-5': { title: 'Dark Luxury 3D Kit',     subtitle: 'Presets & Figma Tokens' },
+    },
+  },
+
   // Business Accounts Section
   businessAccountsSection: {
     eyebrow: 'Business accounts',

@@ -539,6 +539,19 @@ export const de: TranslationKeys = {
     },
   },
 
+  // Product Cards
+  productCards: {
+    delivery: '1-Klick-Lieferung',
+    buy: 'Kaufen',
+    items: {
+      'card-1': { title: 'Noir Fashion Vault',          subtitle: '48 redaktionelle RAW-Fotos' },
+      'card-2': { title: 'Cinematic LUTs & Clips',      subtitle: '4K Anamorphes Video-Paket' },
+      'card-3': { title: 'Brand-Strategie-System',      subtitle: '62-seitiger interaktiver Guide' },
+      'card-4': { title: 'Creator Playbook 2026',       subtitle: 'Monetarisierungs-Geheimnisse' },
+      'card-5': { title: 'Dark Luxury 3D Kit',          subtitle: 'Presets & Figma-Tokens' },
+    },
+  },
+
   // Business Accounts Section
   businessAccountsSection: {
     eyebrow: 'Business-Konten',

@@ -2,6 +2,7 @@ import React from 'react';
 import { ProductCardData } from '../data/productData';
 import { Sparkles, ShieldCheck, ArrowRight } from 'lucide-react';
 import { ProductCover } from './ProductCover';
+import { useLanguage } from '../i18n/LanguageContext';
 
 interface ProductCardProps {
   product: ProductCardData;
@@ -10,6 +11,12 @@ interface ProductCardProps {
 }
 
 export const ProductCard: React.FC<ProductCardProps> = ({ product, cardRef, index }) => {
+  const { t } = useLanguage();
+  type CardId = keyof typeof t.productCards.items;
+  const cardText = (t.productCards.items as Record<CardId, { title: string; subtitle: string }>)[product.id as CardId];
+  const title    = cardText?.title    ?? product.title;
+  const subtitle = cardText?.subtitle ?? product.subtitle;
+
   return (
     <div
       ref={cardRef}
@@ -69,20 +76,20 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, cardRef, inde
         <div className="absolute bottom-0 left-0 right-0 p-3.5 sm:p-5 z-10 flex flex-col gap-1.5">
           <div className="flex items-center gap-1 text-[10px] sm:text-xs text-[#7AE9B4] font-medium tracking-wide min-w-0">
             <Sparkles className="w-3 h-3 text-[#4ED398] shrink-0" />
-            <span className="truncate min-w-0">{product.subtitle}</span>
+            <span className="truncate min-w-0">{subtitle}</span>
           </div>
 
           <h3 className="text-xs sm:text-sm md:text-base font-bold text-white tracking-tight leading-snug truncate group-hover:text-[#7AE9B4] transition-colors">
-            {product.title}
+            {title}
           </h3>
 
           <div className="mt-1.5 pt-2 border-t border-white/10 flex items-center justify-between gap-2 text-[10px] sm:text-xs text-slate-300">
             <span className="flex items-center gap-1 text-slate-400 whitespace-nowrap min-w-0 truncate">
               <ShieldCheck className="w-3 h-3 text-[#4ED398]/80 shrink-0" />
-              1-Click Delivery
+              {t.productCards.delivery}
             </span>
             <span className="font-semibold text-[#7AE9B4] flex items-center gap-0.5 whitespace-nowrap shrink-0 group-hover:translate-x-1 transition-transform">
-              Buy <ArrowRight className="w-3 h-3" />
+              {t.productCards.buy} <ArrowRight className="w-3 h-3" />
             </span>
           </div>
         </div>
