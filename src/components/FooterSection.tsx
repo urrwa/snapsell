@@ -1,13 +1,23 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { ArrowUpRight, Mail } from 'lucide-react';
+import { ArrowUpRight, Mail, ArrowRight, Check } from 'lucide-react';
 
 gsap.registerPlugin(ScrollTrigger);
 
 export function FooterSection() {
   const footerRef = useRef<HTMLElement>(null);
   const currentYear = new Date().getFullYear();
+  const [email, setEmail] = useState('');
+  const [subscribed, setSubscribed] = useState(false);
+
+  const handleSubscribe = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!email) return;
+    setSubscribed(true);
+    setEmail('');
+    setTimeout(() => setSubscribed(false), 4000);
+  };
 
   useEffect(() => {
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -46,7 +56,31 @@ export function FooterSection() {
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[700px] h-[350px] bg-[radial-gradient(ellipse_at_top,rgba(235,206,100,0.08)_0%,rgba(193,156,50,0.02)_50%,transparent_70%)] pointer-events-none rounded-full" />
 
       <div className="footer-container relative z-10 w-full max-w-[1420px] mx-auto">
-        
+
+        {/* Newsletter Strip */}
+        <div className="footer-anim-item flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 pb-12 mb-12 border-b border-white/10">
+          <div>
+            <p className="text-white font-semibold text-base">Stay in the loop</p>
+            <p className="text-slate-400 text-sm mt-0.5">Creator tips, product updates, no spam.</p>
+          </div>
+          <form onSubmit={handleSubscribe} className="flex items-center gap-2 w-full sm:w-auto">
+            <input
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="Your email"
+              required
+              className="flex-1 sm:w-64 bg-white/5 border border-white/10 rounded-lg px-4 py-2.5 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-[#20B777]/60 focus:bg-white/8 transition-all"
+            />
+            <button
+              type="submit"
+              className="shrink-0 flex items-center gap-1.5 bg-[#20B777] hover:bg-[#1da368] text-white text-sm font-semibold px-4 py-2.5 rounded-lg transition-colors"
+            >
+              {subscribed ? <><Check className="w-4 h-4" /> Done</> : <><ArrowRight className="w-4 h-4" /> Subscribe</>}
+            </button>
+          </form>
+        </div>
+
         {/* Main Grid Section */}
         <div className="footer-main grid grid-cols-1 md:grid-cols-2 lg:grid-cols-[minmax(260px,1.35fr)_minmax(130px,0.65fr)_minmax(150px,0.75fr)_minmax(130px,0.6fr)_minmax(260px,1.15fr)] gap-10 lg:gap-12 xl:gap-16 items-start pb-16 border-b border-white/10">
           
