@@ -466,6 +466,20 @@ export function HowItWorksSection() {
                 </p>
               </div>
 
+              {/* Customer photo */}
+              <div className="relative w-full rounded-xl overflow-hidden border border-emerald-500/30" style={{height:'90px'}}>
+                <img
+                  src="https://images.unsplash.com/photo-1636625958417-14ae7dab3c5a?fm=jpg&q=75&w=600&auto=format&fit=crop&fit=crop&crop=top"
+                  alt="Happy customer"
+                  loading="lazy"
+                  decoding="async"
+                  className="w-full h-full object-cover object-top"
+                />
+                <div className="absolute inset-0 bg-gradient-to-r from-black/40 to-transparent pointer-events-none" />
+                <div className="absolute inset-x-0 bottom-0 h-8 bg-gradient-to-t from-black/70 to-transparent pointer-events-none" />
+                <span className="absolute bottom-1.5 left-2 text-[8px] font-semibold text-white/80">Customer received instant access</span>
+              </div>
+
               <div className="p-2 bg-zinc-900 border border-white/10 rounded-xl space-y-1.5">
                 <div className="flex items-center justify-between text-[9px] text-slate-400">
                   <span>Available Earnings Balance</span>
