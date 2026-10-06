@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Play, Sparkles } from 'lucide-react';
+import { useLanguage } from '../i18n/LanguageContext';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -20,6 +21,7 @@ export function OurTeamSection({
   const playButtonRef = useRef<HTMLButtonElement>(null);
 
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
+  const { t } = useLanguage();
 
   useEffect(() => {
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -99,7 +101,7 @@ export function OurTeamSection({
           {/* EYEBROW */}
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#20B777]/10 border border-[#20B777]/30 text-[#7AE9B4] text-xs font-bold tracking-widest uppercase mb-6 shadow-[0_0_15px_rgba(32,183,119,0.1)]">
             <Sparkles className="w-3.5 h-3.5 text-[#4ED398]" />
-            <span className="section-eyebrow">OUR TEAM</span>
+            <span className="section-eyebrow">{t.ourTeam.eyebrow.toUpperCase()}</span>
           </div>
 
           {/* MAIN HEADING */}
@@ -109,7 +111,7 @@ export function OurTeamSection({
               letterSpacing: '-0.04em',
             }}
           >
-            Meet the People Behind SnapSell
+            {t.ourTeam.headline}
           </h2>
 
           {/* SUPPORTING TEXT */}
@@ -121,7 +123,7 @@ export function OurTeamSection({
               marginBottom: 'clamp(50px, 6vw, 82px)',
             }}
           >
-            We are building a simpler way for creators and businesses to sell digital content, connect with their audience and grow their income.
+            {t.ourTeam.description}
           </p>
         </header>
 
@@ -173,7 +175,7 @@ export function OurTeamSection({
 
                 {/* VIDEO LABEL */}
                 <span className="team-video-label relative z-10 text-slate-100 font-semibold text-sm sm:text-base tracking-wide drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)] group-hover:text-white transition-colors duration-200">
-                  Watch Our Story
+                  {t.ourTeam.watchLabel}
                 </span>
               </div>
             ) : (

@@ -1,36 +1,37 @@
 import React, { useState } from 'react';
 import { Mail, MessageCircle, Building2, LifeBuoy, Send, Check } from 'lucide-react';
-
-const CHANNELS = [
-  {
-    icon: LifeBuoy,
-    label: 'Creator support',
-    value: 'support@snapsell.co',
-    note: 'Account, payouts and delivery questions.',
-  },
-  {
-    icon: Building2,
-    label: 'Business & agencies',
-    value: 'business@snapsell.co',
-    note: 'Team accounts, API access and volume pricing.',
-  },
-  {
-    icon: MessageCircle,
-    label: 'Press & partnerships',
-    value: 'hello@snapsell.co',
-    note: 'Media requests and collaborations.',
-  },
-];
-
-const TOPICS = ['General question', 'Payouts', 'Business account', 'Technical issue'];
+import { useLanguage } from '../i18n/LanguageContext';
 
 export default function ContactPage({ className = '' }: { className?: string }) {
   const [sent, setSent] = useState(false);
+  const { t } = useLanguage();
+
+  const CHANNELS = [
+    {
+      icon: LifeBuoy,
+      label: t.contact.badge,
+      value: 'support@snapsell.co',
+      note: t.contact.info.response,
+    },
+    {
+      icon: Building2,
+      label: t.footer.business.headline,
+      value: 'business@snapsell.co',
+      note: t.contact.info.email,
+    },
+    {
+      icon: MessageCircle,
+      label: t.footer.company.links.press,
+      value: 'hello@snapsell.co',
+      note: t.contact.form.subject,
+    },
+  ];
+
+  const TOPICS = [t.contact.form.subject, t.payments.features.instantPayout, t.business.headline, t.footer.support.helpCenter];
   const [topic, setTopic] = useState(TOPICS[0]);
 
   const onSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Front-end only — no backend is wired up on this build.
     setSent(true);
     setTimeout(() => setSent(false), 4000);
   };
@@ -39,13 +40,12 @@ export default function ContactPage({ className = '' }: { className?: string }) 
     <section id="contact-section" className={`page-section min-h-[calc(100vh-104px)] ${className}`}>
       <div className="page-shell">
         <header className="page-head">
-          <span className="page-eyebrow">CONTACT</span>
+          <span className="page-eyebrow">{t.nav.contact.toUpperCase()}</span>
           <h1 className="page-title">
-            Talk to <span className="emerald-gradient-text">a human.</span>
+            {t.contact.headline} <span className="emerald-gradient-text">{t.contact.badge}.</span>
           </h1>
           <p className="page-lede">
-            Questions about selling, payouts or setting up a business account — send a
-            note and the right person will pick it up.
+            {t.contact.subheadline}
           </p>
         </header>
 
@@ -73,39 +73,39 @@ export default function ContactPage({ className = '' }: { className?: string }) 
           <form className="contact-form" onSubmit={onSubmit}>
             <div className="contact-row">
               <label className="contact-field">
-                <span className="contact-label">Name</span>
-                <input type="text" name="name" required placeholder="Alex Rivers" />
+                <span className="contact-label">{t.contact.form.name}</span>
+                <input type="text" name="name" required placeholder={t.contact.form.namePlaceholder} />
               </label>
 
               <label className="contact-field">
-                <span className="contact-label">Email</span>
-                <input type="email" name="email" required placeholder="alex@creator.co" />
+                <span className="contact-label">{t.contact.form.email}</span>
+                <input type="email" name="email" required placeholder={t.contact.form.emailPlaceholder} />
               </label>
             </div>
 
             <div className="contact-field">
-              <span className="contact-label">Topic</span>
+              <span className="contact-label">{t.contact.form.subject}</span>
               <div className="contact-topics">
-                {TOPICS.map((t) => (
+                {TOPICS.map((tp) => (
                   <button
-                    key={t}
+                    key={tp}
                     type="button"
-                    onClick={() => setTopic(t)}
-                    className={`contact-topic ${topic === t ? 'is-active' : ''}`}
+                    onClick={() => setTopic(tp)}
+                    className={`contact-topic ${topic === tp ? 'is-active' : ''}`}
                   >
-                    {t}
+                    {tp}
                   </button>
                 ))}
               </div>
             </div>
 
             <label className="contact-field">
-              <span className="contact-label">Message</span>
+              <span className="contact-label">{t.contact.form.message}</span>
               <textarea
                 name="message"
                 rows={5}
                 required
-                placeholder="Tell us what you're trying to do…"
+                placeholder={t.contact.form.messagePlaceholder}
               />
             </label>
 
@@ -113,19 +113,19 @@ export default function ContactPage({ className = '' }: { className?: string }) 
               {sent ? (
                 <>
                   <Check className="w-4 h-4" />
-                  Message sent
+                  {t.contact.form.success}
                 </>
               ) : (
                 <>
                   <Send className="w-4 h-4" />
-                  Send message
+                  {t.contact.form.send}
                 </>
               )}
             </button>
 
             <p className="contact-disclaimer">
               <Mail className="w-3.5 h-3.5 shrink-0" />
-              This form is front-end only in this build — no backend is connected yet.
+              {t.contact.info.response}
             </p>
           </form>
         </div>

@@ -14,6 +14,7 @@ import {
   Headphones,
   Link2,
 } from 'lucide-react';
+import { useLanguage } from '../i18n/LanguageContext';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -26,82 +27,30 @@ interface ContentTypeRow {
   icon: React.ElementType;
 }
 
-const CONTENT_TYPES: ContentTypeRow[] = [
-  {
-    id: '01',
-    title: 'Exclusive Photos',
-    description: 'Individual premium images, private photo sets and exclusive visual content.',
-    tag: 'JPG',
-    icon: Camera,
-  },
-  {
-    id: '02',
-    title: 'Premium Videos',
-    description: 'Short clips, full-length videos and exclusive video collections.',
-    tag: 'MP4',
-    icon: Video,
-  },
-  {
-    id: '03',
-    title: 'Behind-the-Scenes',
-    description: 'Paid access to private moments, production insights and unlisted content.',
-    tag: 'MOV',
-    icon: Eye,
-  },
-  {
-    id: '04',
-    title: 'Photo Collections',
-    description: 'Package several images into organized sets sold as one digital product.',
-    tag: 'ZIP',
-    icon: Images,
-  },
-  {
-    id: '05',
-    title: 'E-books and Guides',
-    description: 'Educational guides, creator resources, manuals and designed digital books.',
-    tag: 'EPUB',
-    icon: BookOpen,
-  },
-  {
-    id: '06',
-    title: 'Educational PDFs',
-    description: 'Courses, worksheets, reports, checklists and downloadable documents.',
-    tag: 'PDF',
-    icon: FileText,
-  },
-  {
-    id: '07',
-    title: 'Lightroom Presets',
-    description: 'Colour-grading presets and editing packs that reproduce your visual style.',
-    tag: 'XMP',
-    icon: Sliders,
-  },
-  {
-    id: '08',
-    title: 'Photoshop Files',
-    description: 'Templates, layered project files, design assets and editable resources.',
-    tag: 'PSD',
-    icon: Layers,
-  },
-  {
-    id: '09',
-    title: 'ZIP Archives',
-    description: 'Bundle multiple files or complete collections into one downloadable archive.',
-    tag: 'ZIP',
-    icon: FolderArchive,
-  },
-  {
-    id: '10',
-    title: 'Audio Recordings',
-    description: 'Private audio, podcasts, voice recordings, music and sound content.',
-    tag: 'MP3',
-    icon: Headphones,
-  },
+type ContentTypeKey = 'photos' | 'videos' | 'bts' | 'collections' | 'ebooks' | 'pdfs' | 'presets' | 'psd' | 'zip' | 'audio';
+
+const CONTENT_TYPES_STATIC: { id: string; tag: string; icon: React.ElementType; tKey: ContentTypeKey }[] = [
+  { id: '01', tag: 'JPG',  icon: Camera,      tKey: 'photos' },
+  { id: '02', tag: 'MP4',  icon: Video,       tKey: 'videos' },
+  { id: '03', tag: 'MOV',  icon: Eye,         tKey: 'bts' },
+  { id: '04', tag: 'ZIP',  icon: Images,      tKey: 'collections' },
+  { id: '05', tag: 'EPUB', icon: BookOpen,    tKey: 'ebooks' },
+  { id: '06', tag: 'PDF',  icon: FileText,    tKey: 'pdfs' },
+  { id: '07', tag: 'XMP',  icon: Sliders,     tKey: 'presets' },
+  { id: '08', tag: 'PSD',  icon: Layers,      tKey: 'psd' },
+  { id: '09', tag: 'ZIP',  icon: FolderArchive, tKey: 'zip' },
+  { id: '10', tag: 'MP3',  icon: Headphones,  tKey: 'audio' },
 ];
 
 export function ContentTypesSection() {
   const sectionRef = useRef<HTMLElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
+  const { t } = useLanguage();
+
+  const CONTENT_TYPES: ContentTypeRow[] = CONTENT_TYPES_STATIC.map((s) => {
+    const item = (t.contentTypesSection.items as Record<ContentTypeKey, { title: string; description: string }>)[s.tKey];
+    return { id: s.id, tag: s.tag, icon: s.icon, title: item.title, description: item.description };
+  });
 
   useEffect(() => {
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -154,15 +103,15 @@ export function ContentTypesSection() {
         {/* SECTION HEADER */}
         <header className="max-w-3xl mx-auto text-center mb-14 sm:mb-20 space-y-4">
           <span className="section-eyebrow inline-block px-3.5 py-1 rounded-full bg-[#20B777]/10 border border-[#20B777]/20 text-[#7AE9B4] text-[11px] font-bold tracking-[0.25em] uppercase">
-            CONTENT TYPES
+            {t.contentTypesSection.eyebrow.toUpperCase()}
           </span>
 
           <h2 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-white tracking-tight leading-[1.04]">
-            Sell More Than Just Photos
+            {t.contentTypesSection.headline}
           </h2>
 
           <p className="text-slate-300 text-base sm:text-lg max-w-2xl mx-auto font-normal leading-relaxed pt-1">
-            SnapSell supports a wide variety of digital content and downloadable products.
+            {t.contentTypesSection.description}
           </p>
         </header>
 

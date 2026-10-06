@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState, useCallback } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { useLanguage } from '../i18n/LanguageContext';
 import { 
   UserCheck, 
   UploadCloud, 
@@ -282,6 +283,16 @@ export function HowItWorksSection() {
   const [activeStepIndex, setActiveStepIndex] = useState<number>(0);
   const [completedSteps, setCompletedSteps] = useState<boolean[]>([false, false, false, false, false]);
   const [copiedLink, setCopiedLink] = useState<boolean>(false);
+  const { t } = useLanguage();
+
+  // Build STEPS from translations
+  const STEPS_T: StepData[] = [
+    { number: t.howItWorks.steps.step01.number, title: t.howItWorks.steps.step01.title, description: t.howItWorks.steps.step01.description, badge: t.howItWorks.steps.step01.badge, theme: 'dark' },
+    { number: t.howItWorks.steps.step02.number, title: t.howItWorks.steps.step02.title, description: t.howItWorks.steps.step02.description, badge: t.howItWorks.steps.step02.badge, theme: 'light' },
+    { number: t.howItWorks.steps.step03.number, title: t.howItWorks.steps.step03.title, description: t.howItWorks.steps.step03.description, badge: t.howItWorks.steps.step03.badge, theme: 'dark' },
+    { number: t.howItWorks.steps.step04.number, title: t.howItWorks.steps.step04.title, description: t.howItWorks.steps.step04.description, badge: t.howItWorks.steps.step04.badge, theme: 'light' },
+    { number: t.howItWorks.steps.step05.number, title: t.howItWorks.steps.step05.title, description: t.howItWorks.steps.step05.description, badge: t.howItWorks.steps.step05.badge, theme: 'dark' },
+  ];
 
   useEffect(() => {
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -305,7 +316,7 @@ export function HowItWorksSection() {
           // skip the re-render — previously a new array every scroll frame
           // re-rendered all five phone mockups ~60 times a second.
           const progress = self.progress;
-          const stepRatio = 1 / STEPS.length;
+          const stepRatio = 1 / STEPS_T.length;
           setCompletedSteps((prev) => {
             const next = prev.map((_, idx) => progress >= (idx + 0.5) * stepRatio);
             return next.every((v, i) => v === prev[i]) ? prev : next;
@@ -314,7 +325,7 @@ export function HowItWorksSection() {
       });
 
       // 2. Local ScrollTriggers for each step row reveal & active state
-      STEPS.forEach((_, index) => {
+      STEPS_T.forEach((_, index) => {
         const stepEl = document.getElementById(`timeline-step-row-${index}`);
         const phoneEl = document.getElementById(`phone-mockup-${index}`);
         const textEl = document.getElementById(`step-text-content-${index}`);
@@ -736,11 +747,11 @@ export function HowItWorksSection() {
             <div className="flex items-center gap-1.5 min-w-0">
               <SnapSellLogo className="h-3.5 w-auto max-w-[65px] object-contain" />
               <span className="text-[9.5px] font-semibold text-slate-300 truncate">
-                {STEPS[stepIndex].badge}
+                {STEPS_T[stepIndex].badge}
               </span>
             </div>
             <span className="text-[8.5px] px-2 py-0.5 rounded-full bg-[#20B777]/15 text-[#7AE9B4] font-bold border border-[#20B777]/25 shrink-0">
-              STEP {STEPS[stepIndex].number}
+              STEP {STEPS_T[stepIndex].number}
             </span>
           </div>
 
@@ -761,7 +772,7 @@ export function HowItWorksSection() {
 
   // Render Step Text Block
   const renderStepContent = (stepIndex: number) => {
-    const step = STEPS[stepIndex];
+    const step = STEPS_T[stepIndex];
     const isActive = activeStepIndex === stepIndex;
 
     return (
@@ -796,7 +807,7 @@ export function HowItWorksSection() {
     <section
       ref={sectionRef}
       id="how-it-works-section"
-      data-theme={STEPS[activeStepIndex]?.theme ?? 'dark'}
+      data-theme={STEPS_T[activeStepIndex]?.theme ?? 'dark'}
       className="how-it-works-section relative w-full py-20 sm:py-32 overflow-hidden"
     >
       {/* Light canvas: fades in over the dark one (opacity only — cheap) */}
@@ -807,8 +818,8 @@ export function HowItWorksSection() {
 
       {/* SECTION HEADER */}
       <header className="how-it-works-header max-w-4xl mx-auto px-4 sm:px-6 text-center mb-16 sm:mb-28 relative z-10">
-        <span className="hiw-eyebrow">HOW IT WORKS</span>
-        <h2 className="hiw-heading">From Upload to Income in Minutes</h2>
+        <span className="hiw-eyebrow">{t.howItWorks.eyebrow.toUpperCase()}</span>
+        <h2 className="hiw-heading">{t.howItWorks.headline}</h2>
       </header>
 
       {/* TIMELINE WRAPPER WITH CENTER LINE */}
@@ -827,7 +838,7 @@ export function HowItWorksSection() {
 
         {/* 5 TIMELINE STEPS ROW BY ROW */}
         <div className="space-y-24 sm:space-y-36 lg:space-y-44 relative z-10">
-          {STEPS.map((_, index) => {
+          {STEPS_T.map((_, index) => {
             const isPhoneLeft = index % 2 === 0;
             const isActive = activeStepIndex === index;
             const isCompleted = completedSteps[index];

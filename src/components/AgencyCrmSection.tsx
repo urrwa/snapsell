@@ -16,6 +16,7 @@ import {
   Users,
   Video,
 } from 'lucide-react';
+import { useLanguage } from '../i18n/LanguageContext';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -32,51 +33,16 @@ interface Feature {
   icon: React.ElementType;
 }
 
-/**
- * Six capabilities, each tied to one panel of the dashboard below.
- * Split three-and-three so they can sit either side of the dashboard on
- * wide screens; order within each side follows the panel positions.
- */
-const LEFT: Feature[] = [
-  {
-    id: 'creators',
-    title: 'Manage multiple creators',
-    body: 'Profiles, internal notes, media, paid links and performance for every creator, organized in one place.',
-    icon: Users,
-  },
-  {
-    id: 'team',
-    title: 'Organize your team',
-    body: 'Separate access for chatters, moderators and administrators.',
-    icon: UserCog,
-  },
-  {
-    id: 'inbox',
-    title: 'Central Telegram inbox',
-    body: 'Handle Telegram conversations and assign each one to the right creator and team member.',
-    icon: Send,
-  },
+const LEFT_STATIC: { id: FeatureId; icon: React.ElementType }[] = [
+  { id: 'creators', icon: Users },
+  { id: 'team', icon: UserCog },
+  { id: 'inbox', icon: Send },
 ];
 
-const RIGHT: Feature[] = [
-  {
-    id: 'analytics',
-    title: 'Dashboard & analytics',
-    body: 'Follow creators, team members, paid links, sales, revenue and performance.',
-    icon: BarChart3,
-  },
-  {
-    id: 'pipeline',
-    title: 'Simple CRM pipeline',
-    body: 'Move contacts and activity through clear stages, without a complicated CRM.',
-    icon: SquareKanban,
-  },
-  {
-    id: 'media',
-    title: 'Media & paid links',
-    body: 'Upload images and videos, set a price and generate a paid link.',
-    icon: Link2,
-  },
+const RIGHT_STATIC: { id: FeatureId; icon: React.ElementType }[] = [
+  { id: 'analytics', icon: BarChart3 },
+  { id: 'pipeline', icon: SquareKanban },
+  { id: 'media', icon: Link2 },
 ];
 
 const ORDER: FeatureId[] = ['creators', 'team', 'inbox', 'analytics', 'pipeline', 'media'];
@@ -225,6 +191,17 @@ export function AgencyCrmSection() {
   const sectionRef = useRef<HTMLElement>(null);
   const frameRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLDivElement>(null);
+  const { t } = useLanguage();
+
+  type AgencyCrmFeatureKey = keyof typeof t.agencyCrm.features;
+  const LEFT: Feature[] = LEFT_STATIC.map((s) => {
+    const f = (t.agencyCrm.features as Record<AgencyCrmFeatureKey, { title: string; body: string }>)[s.id as AgencyCrmFeatureKey];
+    return { id: s.id, title: f.title, body: f.body, icon: s.icon };
+  });
+  const RIGHT: Feature[] = RIGHT_STATIC.map((s) => {
+    const f = (t.agencyCrm.features as Record<AgencyCrmFeatureKey, { title: string; body: string }>)[s.id as AgencyCrmFeatureKey];
+    return { id: s.id, title: f.title, body: f.body, icon: s.icon };
+  });
 
   // `hovered` is what the visitor is pointing at; `auto` is the idle tour.
   const [hovered, setHovered] = useState<FeatureId | null>(null);
@@ -351,15 +328,13 @@ export function AgencyCrmSection() {
         <header className="crm-head">
           <span className="crm-label crm-anim">
             <span className="crm-label-dot" />
-            NEW: SNAPSELL FOR AGENCIES
+            {t.agencyCrm.eyebrow.toUpperCase()}
           </span>
           <h2 id="crm-title" className="crm-title crm-anim">
-            One workspace to manage your{' '}
-            <span className="emerald-gradient-text">entire creator agency.</span>
+            {t.agencyCrm.headline}
           </h2>
           <p className="crm-lede crm-anim">
-            Creators, team members, Telegram conversations, media, paid links and
-            performance, all run from one SnapSell Agency Account.
+            {t.agencyCrm.description}
           </p>
         </header>
 
@@ -548,18 +523,16 @@ export function AgencyCrmSection() {
         {/* ---------------- 4. CTA ---------------- */}
         <div className="crm-cta">
           <div className="crm-cta-copy">
-            <h3 className="crm-cta-title">Ready to organize your agency with SnapSell?</h3>
-            <p className="crm-cta-micro">
-              For agencies with two or more creators <span>·</span> Personal onboarding <span>·</span> KYC verification required
-            </p>
+            <h3 className="crm-cta-title">{t.agencyCrm.ctaTitle}</h3>
+            <p className="crm-cta-micro">{t.agencyCrm.ctaMicro}</p>
           </div>
           <div className="crm-cta-actions">
             <a href="#/contact" className="nav-cta-btn crm-btn">
-              Start your 14-day free trial
+              {t.agencyCrm.ctaStart}
               <ArrowRight className="w-4 h-4" />
             </a>
             <a href="#/contact" className="nav-ghost-btn crm-btn">
-              Request an agency demo
+              {t.agencyCrm.ctaDemo}
             </a>
           </div>
         </div>

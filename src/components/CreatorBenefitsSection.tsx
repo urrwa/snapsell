@@ -11,6 +11,7 @@ import {
   ArrowRight 
 } from 'lucide-react';
 import { SnapSellLogo } from './SnapSellLogo';
+import { useLanguage } from '../i18n/LanguageContext';
 
 export interface Benefit {
   id: string;
@@ -26,113 +27,35 @@ export interface Benefit {
   angleDeg: number;
 }
 
-const BENEFITS: Benefit[] = [
-  {
-    id: 'no-fees',
-    eyebrow: 'CREATOR BENEFIT',
-    shortLabel: 'No Fees',
-    title: 'No Monthly Fees',
-    description: 'Create your account and publish products without paying a recurring subscription.',
-    bullets: [
-      'Start without a monthly commitment',
-      'Publish products right away',
-      'Better for creators testing new offers',
-      'Pay only when you generate sales'
-    ],
-    icon: ShieldCheck,
-    x: 50,
-    y: 10,
-    angleDeg: -90,
-  },
-  {
-    id: 'pricing',
-    eyebrow: 'CREATOR BENEFIT',
-    shortLabel: 'Pricing',
-    title: 'Simple Transaction Pricing',
-    description: 'SnapSell applies a 10% service fee when you make a sale. Additional payment-processing charges, taxes, refunds or chargebacks may also apply.',
-    bullets: [
-      'Clear platform fee structure',
-      'Cost is tied to actual sales activity',
-      'No recurring subscription burden',
-      'Built for flexible creator monetization'
-    ],
-    icon: Percent,
-    x: 85,
-    y: 30,
-    angleDeg: -30,
-  },
-  {
-    id: 'delivery',
-    eyebrow: 'CREATOR BENEFIT',
-    shortLabel: 'Delivery',
-    title: 'Automated Digital Delivery',
-    description: 'Customers receive secure access to their purchase without you manually sending individual files.',
-    bullets: [
-      'Secure digital access for buyers',
-      'No manual file sending',
-      'Faster fulfillment experience',
-      'Better buyer experience at scale'
-    ],
-    icon: Zap,
-    x: 85,
-    y: 70,
-    angleDeg: 30,
-  },
-  {
-    id: 'dashboard',
-    eyebrow: 'CREATOR BENEFIT',
-    shortLabel: 'Dashboard',
-    title: 'Sales and Earnings Dashboard',
-    description: 'See what you sold, monitor your balance and manage your digital products from one place.',
-    bullets: [
-      'View your sales activity',
-      'Track earnings and balances',
-      'Manage digital products centrally',
-      'Stay organized as you grow'
-    ],
-    icon: BarChart3,
-    x: 50,
-    y: 90,
-    angleDeg: 90,
-  },
-  {
-    id: 'global-sales',
-    eyebrow: 'CREATOR BENEFIT',
-    shortLabel: 'Global Sales',
-    title: 'International Selling',
-    description: 'Reach customers in different markets using supported currencies, languages and payment methods.',
-    bullets: [
-      'Sell to buyers in multiple markets',
-      'Support broader audience reach',
-      'Better flexibility across regions',
-      'Built for cross-channel digital selling'
-    ],
-    icon: Globe,
-    x: 15,
-    y: 70,
-    angleDeg: 150,
-  },
-  {
-    id: 'payouts',
-    eyebrow: 'CREATOR BENEFIT',
-    shortLabel: 'Payouts',
-    title: 'Scheduled Payouts',
-    description: 'Eligible balances are paid according to SnapSell’s payout schedule and minimum payout requirements.',
-    bullets: [
-      'Structured payout flow',
-      'Suitable for ongoing creator sales',
-      'Clear payout expectations',
-      'Supports more predictable operations'
-    ],
-    icon: Calendar,
-    x: 15,
-    y: 30,
-    angleDeg: 210,
-  },
+// IDs aligned with translation keys
+const BENEFITS_BASE = [
+  { id: 'no-fees', tKey: 'noFees' as const, icon: ShieldCheck, x: 50, y: 10, angleDeg: -90, bullets: ['Start without a monthly commitment', 'Publish products right away', 'Better for creators testing new offers', 'Pay only when you generate sales'] },
+  { id: 'pricing', tKey: 'pricing' as const, icon: Percent, x: 85, y: 30, angleDeg: -30, bullets: ['Clear platform fee structure', 'Cost is tied to actual sales activity', 'No recurring subscription burden', 'Built for flexible creator monetization'] },
+  { id: 'delivery', tKey: 'delivery' as const, icon: Zap, x: 85, y: 70, angleDeg: 30, bullets: ['Secure digital access for buyers', 'No manual file sending', 'Faster fulfillment experience', 'Better buyer experience at scale'] },
+  { id: 'dashboard', tKey: 'dashboard' as const, icon: BarChart3, x: 50, y: 90, angleDeg: 90, bullets: ['View your sales activity', 'Track earnings and balances', 'Manage digital products centrally', 'Stay organized as you grow'] },
+  { id: 'global-sales', tKey: 'international' as const, icon: Globe, x: 15, y: 70, angleDeg: 150, bullets: ['Sell to buyers in multiple markets', 'Support broader audience reach', 'Better flexibility across regions', 'Built for cross-channel digital selling'] },
+  { id: 'payouts', tKey: 'payouts' as const, icon: Calendar, x: 15, y: 30, angleDeg: 210, bullets: ['Structured payout flow', 'Suitable for ongoing creator sales', 'Clear payout expectations', 'Supports more predictable operations'] },
 ];
 
 export function CreatorBenefitsSection() {
   const [activeId, setActiveId] = useState<string>('no-fees');
+  const { t } = useLanguage();
+
+  const BENEFITS: Benefit[] = BENEFITS_BASE.map((b) => {
+    const card = t.creatorBenefitsSection.cards[b.tKey];
+    return {
+      id: b.id,
+      eyebrow: t.creatorBenefitsSection.eyebrow.toUpperCase(),
+      shortLabel: card.shortLabel,
+      title: card.title,
+      description: card.description,
+      bullets: b.bullets,
+      icon: b.icon,
+      x: b.x,
+      y: b.y,
+      angleDeg: b.angleDeg,
+    };
+  });
 
   const activeBenefit = BENEFITS.find((b) => b.id === activeId) || BENEFITS[0];
   const ActiveIcon = activeBenefit.icon;
@@ -149,13 +72,13 @@ export function CreatorBenefitsSection() {
         {/* SECTION HEADER */}
         <div className="text-center max-w-3xl mx-auto mb-14 sm:mb-20">
           <span className="text-[11px] font-bold tracking-[0.25em] text-[#7AE9B4] uppercase mb-3 inline-block px-3.5 py-1 rounded-full bg-[#20B777]/10 border border-[#20B777]/20">
-            CREATOR BENEFITS
+            {t.creatorBenefitsSection.eyebrow.toUpperCase()}
           </span>
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-white tracking-tight leading-tight mt-2">
-            Built for Independent Creators
+            {t.creatorBenefits.headline}
           </h2>
           <p className="text-slate-400 text-sm sm:text-base leading-relaxed mt-4 max-w-2xl mx-auto">
-            SnapSell gives creators the tools to sell digital content without unnecessary complexity, recurring subscription pressure or manual delivery work.
+            {t.creatorBenefits.eyebrow}
           </p>
         </div>
 

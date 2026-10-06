@@ -1,23 +1,26 @@
 import React, { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { useLanguage } from '../i18n/LanguageContext';
 
 gsap.registerPlugin(ScrollTrigger);
+
+const WORD_TYPES: Array<'silver' | 'emerald'> = ['silver', 'emerald', 'emerald'];
 
 interface WordData {
   text: string;
   type: 'silver' | 'emerald';
 }
 
-const WORDS: WordData[] = [
-  { text: 'Fast', type: 'silver' },
-  { text: 'Smart', type: 'emerald' },
-  { text: 'Secure', type: 'emerald' },
-];
-
 export function ScrollWordsSection() {
   const sectionRef = useRef<HTMLElement>(null);
   const stickyRef = useRef<HTMLDivElement>(null);
+  const { t } = useLanguage();
+
+  const WORDS: WordData[] = (t.scrollWords.words as readonly string[]).map((text, i) => ({
+    text,
+    type: WORD_TYPES[i] ?? 'silver',
+  }));
 
   useEffect(() => {
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;

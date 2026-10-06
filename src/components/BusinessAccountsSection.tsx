@@ -9,65 +9,35 @@ import {
   Webhook,
   ArrowRight,
 } from 'lucide-react';
+import { useLanguage } from '../i18n/LanguageContext';
 
 gsap.registerPlugin(ScrollTrigger);
 
 interface FeatureRow {
   id: string;
-  label: string;
+  tKey: string;
   title: string;
   description: string;
   icon: React.ElementType;
 }
 
-/**
- * Minimal feature rows.
- *
- * This section used to be five tall image cards. The imagery came from a
- * remote host that no longer resolves, so it rendered as five large empty
- * blocks with alt text — dominating the page for no benefit. The content is
- * a short list of capabilities, so it is presented as one now.
- */
-const FEATURES: FeatureRow[] = [
-  {
-    id: 'central-dashboard',
-    label: 'Central management',
-    title: 'Central Dashboard',
-    description: 'Manage accounts, products and activity from one place.',
-    icon: LayoutDashboard,
-  },
-  {
-    id: 'team-worker-accounts',
-    label: 'Role-based access',
-    title: 'Team and Worker Accounts',
-    description: 'Give team members appropriate access without sharing the main account credentials.',
-    icon: ShieldCheck,
-  },
-  {
-    id: 'unlimited-team-members',
-    label: 'Built to scale',
-    title: 'Unlimited Team Members',
-    description: 'Add the people required to operate and grow your creator business.',
-    icon: UserPlus,
-  },
-  {
-    id: 'api-access',
-    label: 'System connections',
-    title: 'API Access',
-    description: 'Connect SnapSell to external platforms, applications and internal workflows.',
-    icon: Key,
-  },
-  {
-    id: 'sales-webhooks',
-    label: 'Automated sales data',
-    title: 'Sales Webhooks',
-    description: 'Send completed-sale information to your CRM, automation or reporting systems.',
-    icon: Webhook,
-  },
+const FEATURES_STATIC = [
+  { id: 'central-dashboard',    tKey: 'dashboard', icon: LayoutDashboard },
+  { id: 'team-worker-accounts', tKey: 'team',      icon: ShieldCheck },
+  { id: 'unlimited-team-members', tKey: 'unlimited', icon: UserPlus },
+  { id: 'api-access',           tKey: 'api',       icon: Key },
+  { id: 'sales-webhooks',       tKey: 'webhooks',  icon: Webhook },
 ];
 
 export function BusinessAccountsSection() {
   const sectionRef = useRef<HTMLElement>(null);
+  const { t } = useLanguage();
+
+  type BAFeatureKey = keyof typeof t.businessAccountsSection.features;
+  const FEATURES: FeatureRow[] = FEATURES_STATIC.map((s) => {
+    const f = (t.businessAccountsSection.features as Record<BAFeatureKey, { title: string; description: string }>)[s.tKey as BAFeatureKey];
+    return { id: s.id, tKey: s.tKey, title: f.title, description: f.description, icon: s.icon };
+  });
 
   useEffect(() => {
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -103,17 +73,16 @@ export function BusinessAccountsSection() {
         {/* HEADER */}
         <header className="ba-head">
           <div className="ba-head-copy">
-            <span className="ba-eyebrow ba-anim">BUSINESS ACCOUNTS</span>
-            <h2 className="ba-title ba-anim">One Platform for Your Entire Creator Team</h2>
+            <span className="ba-eyebrow ba-anim">{t.businessAccountsSection.eyebrow.toUpperCase()}</span>
+            <h2 className="ba-title ba-anim">{t.businessAccountsSection.headline}</h2>
           </div>
 
           <div className="ba-head-aside ba-anim">
             <p className="ba-lede">
-              SnapSell Business Accounts help agencies and companies manage multiple
-              creators and digital-product operations from a central environment.
+              {t.businessAccountsSection.description}
             </p>
             <a href="#/contact" className="ba-cta">
-              <span>Create a Business Account</span>
+              <span>{t.businessAccountsSection.cta}</span>
               <ArrowRight className="w-4 h-4 transition-transform duration-200" />
             </a>
           </div>
@@ -132,7 +101,6 @@ export function BusinessAccountsSection() {
                 </span>
 
                 <span className="ba-row-main">
-                  <span className="ba-row-label">{f.label}</span>
                   <span className="ba-row-title">{f.title}</span>
                 </span>
 

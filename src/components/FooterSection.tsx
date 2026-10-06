@@ -3,6 +3,7 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { ArrowUpRight, Mail, ArrowRight, Check } from 'lucide-react';
 import { SnapSellLogo } from './SnapSellLogo';
+import { useLanguage } from '../i18n/LanguageContext';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -11,6 +12,7 @@ export function FooterSection() {
   const currentYear = new Date().getFullYear();
   const [email, setEmail] = useState('');
   const [subscribed, setSubscribed] = useState(false);
+  const { t } = useLanguage();
 
   const handleSubscribe = (e: React.FormEvent) => {
     e.preventDefault();
@@ -61,15 +63,15 @@ export function FooterSection() {
         {/* Newsletter Strip */}
         <div className="footer-anim-item flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 pb-12 mb-12 border-b border-white/10">
           <div>
-            <p className="text-white font-semibold text-base">Stay in the loop</p>
-            <p className="text-slate-400 text-sm mt-0.5">Creator tips, product updates, no spam.</p>
+            <p className="text-white font-semibold text-base">{t.footer.newsletter.title}</p>
+            <p className="text-slate-400 text-sm mt-0.5">{t.footer.newsletter.subtitle}</p>
           </div>
           <form onSubmit={handleSubscribe} className="flex items-center gap-2 w-full sm:w-auto">
             <input
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              placeholder="Your email"
+              placeholder={t.footer.newsletter.placeholder}
               required
               className="flex-1 sm:w-64 bg-white/5 border border-white/10 rounded-lg px-4 py-2.5 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-[#20B777]/60 focus:bg-white/8 transition-all"
             />
@@ -77,7 +79,7 @@ export function FooterSection() {
               type="submit"
               className="shrink-0 flex items-center gap-1.5 bg-[#20B777] hover:bg-[#1da368] text-white text-sm font-semibold px-4 py-2.5 rounded-lg transition-colors"
             >
-              {subscribed ? <><Check className="w-4 h-4" /> Done</> : <><ArrowRight className="w-4 h-4" /> Subscribe</>}
+              {subscribed ? <><Check className="w-4 h-4" /> {t.footer.newsletter.done}</> : <><ArrowRight className="w-4 h-4" /> {t.footer.newsletter.subscribe}</>}
             </button>
           </form>
         </div>
@@ -91,40 +93,40 @@ export function FooterSection() {
               <SnapSellLogo className="h-8 sm:h-9 w-auto" />
             </a>
             <p className="text-slate-400 text-sm sm:text-base leading-relaxed max-w-[330px]">
-              Built for creators. Upload digital content, share a link and get paid.
+              {t.footer.brand.tagline}
             </p>
           </div>
 
           {/* Product Links Column */}
           <nav className="footer-anim-item space-y-4" aria-label="Product links">
             <h3 className="text-white text-sm font-bold tracking-tight uppercase flex items-center gap-1.5">
-              <span>Product</span>
+              <span>{t.footer.product.title}</span>
               <span className="w-1.5 h-1.5 rounded-full bg-[#20B777] inline-block" />
             </h3>
             <ul className="space-y-3 text-sm">
               <li>
                 <a href="#how-it-works" className="text-slate-400 hover:text-[#7AE9B4] inline-block transition-all duration-200 hover:translate-x-1">
-                  How It Works
+                  {t.footer.product.links.howItWorks}
                 </a>
               </li>
               <li>
                 <a href="#payments" className="text-slate-400 hover:text-[#7AE9B4] inline-block transition-all duration-200 hover:translate-x-1">
-                  Payments &amp; Fees
+                  {t.footer.product.links.payments}
                 </a>
               </li>
               <li>
                 <a href="#business-accounts" className="text-slate-400 hover:text-[#7AE9B4] inline-block transition-all duration-200 hover:translate-x-1">
-                  Business Accounts
+                  {t.footer.business.headline}
                 </a>
               </li>
               <li>
                 <a href="#api-docs" className="text-slate-400 hover:text-[#7AE9B4] inline-block transition-all duration-200 hover:translate-x-1">
-                  API Documentation
+                  {t.footer.product.links.analytics}
                 </a>
               </li>
               <li>
                 <a href="#login" className="text-slate-400 hover:text-[#7AE9B4] inline-block transition-all duration-200 hover:translate-x-1">
-                  Log In
+                  {t.footer.product.links.customLinks}
                 </a>
               </li>
             </ul>
@@ -133,28 +135,28 @@ export function FooterSection() {
           {/* Help Links Column */}
           <nav className="footer-anim-item space-y-4" aria-label="Help links">
             <h3 className="text-white text-sm font-bold tracking-tight uppercase flex items-center gap-1.5">
-              <span>Help</span>
+              <span>{t.footer.support.title}</span>
               <span className="w-1.5 h-1.5 rounded-full bg-[#20B777] inline-block" />
             </h3>
             <ul className="space-y-3 text-sm">
               <li>
                 <a href="#/contact" className="text-slate-400 hover:text-[#7AE9B4] inline-block transition-all duration-200 hover:translate-x-1">
-                  Contact Support
+                  {t.footer.support.contactSupport}
                 </a>
               </li>
               <li>
                 <a href="#delivery-access" className="text-slate-400 hover:text-[#7AE9B4] inline-block transition-all duration-200 hover:translate-x-1">
-                  Delivery and Access
+                  {t.footer.support.helpCenter}
                 </a>
               </li>
               <li>
                 <a href="#refund-policy" className="text-slate-400 hover:text-[#7AE9B4] inline-block transition-all duration-200 hover:translate-x-1">
-                  Refund Policy
+                  {t.footer.support.systemStatus}
                 </a>
               </li>
               <li>
-                <a href="#dmca" className="text-slate-400 hover:text-[#7AE9B4] inline-block transition-all duration-200 hover:translate-x-1">
-                  Copyright and DMCA
+                <a href="#privacy" className="text-slate-400 hover:text-[#7AE9B4] inline-block transition-all duration-200 hover:translate-x-1">
+                  {t.footer.support.privacyPolicy}
                 </a>
               </li>
             </ul>
@@ -163,23 +165,23 @@ export function FooterSection() {
           {/* Legal Links Column */}
           <nav className="footer-anim-item space-y-4" aria-label="Legal links">
             <h3 className="text-white text-sm font-bold tracking-tight uppercase flex items-center gap-1.5">
-              <span>Legal</span>
+              <span>{t.footer.company.title}</span>
               <span className="w-1.5 h-1.5 rounded-full bg-[#20B777] inline-block" />
             </h3>
             <ul className="space-y-3 text-sm">
               <li>
                 <a href="#terms" className="text-slate-400 hover:text-[#7AE9B4] inline-block transition-all duration-200 hover:translate-x-1">
-                  Terms of Use
+                  {t.footer.company.links.about}
                 </a>
               </li>
               <li>
                 <a href="#privacy" className="text-slate-400 hover:text-[#7AE9B4] inline-block transition-all duration-200 hover:translate-x-1">
-                  Privacy Policy
+                  {t.footer.company.links.blog}
                 </a>
               </li>
               <li>
                 <a href="#cookies" className="text-slate-400 hover:text-[#7AE9B4] inline-block transition-all duration-200 hover:translate-x-1">
-                  Cookie Policy
+                  {t.footer.company.links.careers}
                 </a>
               </li>
             </ul>
@@ -188,13 +190,13 @@ export function FooterSection() {
           {/* Contact Column */}
           <div className="footer-anim-item space-y-4">
             <h3 className="text-white text-sm font-bold tracking-tight uppercase flex items-center gap-1.5">
-              <span>Contact</span>
+              <span>{t.nav.contact}</span>
               <span className="w-1.5 h-1.5 rounded-full bg-[#20B777] inline-block" />
             </h3>
-            
+
             <div className="space-y-4 text-sm">
               <div className="space-y-1">
-                <span className="text-xs text-slate-500 font-medium block">General questions:</span>
+                <span className="text-xs text-slate-500 font-medium block">{t.footer.support.contactSupport}:</span>
                 <a
                   href="mailto:info@snapsell.org"
                   className="text-slate-200 hover:text-[#7AE9B4] font-semibold inline-flex items-center gap-1.5 transition-colors break-all"
@@ -205,7 +207,7 @@ export function FooterSection() {
               </div>
 
               <div className="space-y-1">
-                <span className="text-xs text-slate-500 font-medium block">Support, billing, payouts and refunds:</span>
+                <span className="text-xs text-slate-500 font-medium block">{t.footer.support.title}:</span>
                 <a
                   href="mailto:support@snapsell.org"
                   className="text-slate-200 hover:text-[#7AE9B4] font-semibold inline-flex items-center gap-1.5 transition-colors break-all"
@@ -221,17 +223,13 @@ export function FooterSection() {
 
         {/* Footer Bottom Row */}
         <div className="footer-anim-item pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-400">
-          <p>© {currentYear} SnapSell. All rights reserved.</p>
+          <p>© {currentYear} SnapSell. {t.footer.legal.rights}</p>
 
           <div className="flex flex-wrap items-center gap-6">
-            <a href="#terms" className="hover:text-[#7AE9B4] transition-colors">
-              Terms of Use
-            </a>
-            <a href="#privacy" className="hover:text-[#7AE9B4] transition-colors">
-              Privacy Policy
-            </a>
-            <a href="#cookies" className="hover:text-[#7AE9B4] transition-colors">
-              Cookie Policy
+            <span className="text-slate-500">{t.footer.legal.securePayments}</span>
+            <span className="text-slate-500">{t.footer.legal.globalReach}</span>
+            <a href="#/contact" className="hover:text-[#7AE9B4] transition-colors">
+              {t.footer.support.terms}
             </a>
           </div>
         </div>

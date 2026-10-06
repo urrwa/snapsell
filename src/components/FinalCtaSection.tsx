@@ -2,11 +2,13 @@ import React, { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { ArrowRight, ShieldCheck, CheckCircle2, Zap } from 'lucide-react';
+import { useLanguage } from '../i18n/LanguageContext';
 
 gsap.registerPlugin(ScrollTrigger);
 
 export function FinalCtaSection() {
   const sectionRef = useRef<HTMLElement>(null);
+  const { t } = useLanguage();
 
   useEffect(() => {
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -59,24 +61,24 @@ export function FinalCtaSection() {
           {/* Eyebrow Label */}
           <div className="cta-anim-item inline-flex items-center gap-2 mb-6 sm:mb-8">
             <span className="section-eyebrow px-4 py-1.5 rounded-full border border-[#20B777]/35 bg-[#20B777]/10 text-[#7AE9B4] text-xs font-bold tracking-[0.06em] uppercase">
-              START SELLING TODAY
+              {t.finalCtaSection.eyebrow.toUpperCase()}
             </span>
           </div>
 
           {/* Main Headline */}
           <h2 className="cta-anim-item font-display font-extrabold text-3xl sm:text-5xl lg:text-7xl xl:text-[84px] tracking-[-0.055em] leading-[0.94] text-white max-w-[950px] mx-auto mb-6 text-balance">
-            <span className="silver-gradient-text">Turn Your Digital Content</span>{' '}
-            <span className="emerald-gradient-text block sm:inline">Into Income</span>
+            <span className="silver-gradient-text">{t.finalCtaSection.headline1}</span>{' '}
+            <span className="emerald-gradient-text block sm:inline">{t.finalCtaSection.headline2}</span>
           </h2>
 
           {/* Primary Paragraph */}
           <p className="cta-anim-item text-slate-200 text-base sm:text-xl lg:text-[22px] font-medium leading-snug sm:leading-relaxed max-w-[760px] mx-auto mb-4 text-balance">
-            Upload your first product, generate your sales link and start selling directly to your audience.
+            {t.finalCtaSection.description1}
           </p>
 
           {/* Secondary Paragraph */}
           <p className="cta-anim-item text-slate-400 text-sm sm:text-base lg:text-lg leading-relaxed max-w-[720px] mx-auto mb-8 sm:mb-10 text-balance">
-            No complicated storefront. No monthly subscription. Just your content, one secure link and a simple way to get paid.
+            {t.finalCtaSection.description2}
           </p>
 
           {/* Action Buttons */}
@@ -85,7 +87,7 @@ export function FinalCtaSection() {
               href="#start-selling"
               className="emerald-pill-btn w-full sm:w-auto h-[58px] px-8 sm:px-10 rounded-full text-base font-bold flex items-center justify-center gap-2.5 cursor-pointer group transition-all duration-300 shadow-[0_4px_25px_rgba(32,183,119,0.35)]"
             >
-              <span>Start Selling</span>
+              <span>{t.finalCtaSection.startSelling}</span>
               <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
             </a>
 
@@ -103,7 +105,7 @@ export function FinalCtaSection() {
               >
                 <path d="M325.3 234.3L104.6 13l280.8 161.2-59.8 60.1zM47 0C34 6.8 25.3 19.2 25.3 35.3v441.3c0 16.1 8.7 28.5 21.7 35.3l256.6-256L47 0zm425.2 225.6l-58.9-34.1-65.7 64.5 65.7 64.5 60.1-34.1c18-14.3 18-46.5-1.2-60.8zM104.6 499l220.7-221.3 59.8 60.1L104.6 499z" />
               </svg>
-              <span>Get The App</span>
+              <span>{t.finalCtaSection.getApp}</span>
             </a>
           </div>
 
@@ -111,17 +113,17 @@ export function FinalCtaSection() {
           <div className="cta-anim-item final-cta-trust-line flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs sm:text-sm text-slate-400 border-t border-white/10 pt-6 max-w-xl mx-auto">
             <div className="flex items-center gap-2">
               <ShieldCheck className="w-4 h-4 text-[#4ED398] shrink-0" />
-              <span>No monthly subscription</span>
+              <span>{t.finalCtaSection.trust.noSubscription}</span>
             </div>
             <span className="hidden sm:inline text-white/20">•</span>
             <div className="flex items-center gap-2">
               <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
-              <span>Secure checkout</span>
+              <span>{t.finalCtaSection.trust.secureCheckout}</span>
             </div>
             <span className="hidden sm:inline text-white/20">•</span>
             <div className="flex items-center gap-2">
               <Zap className="w-4 h-4 text-[#4ED398] shrink-0" />
-              <span>Automated digital delivery</span>
+              <span>{t.finalCtaSection.trust.autoDelivery}</span>
             </div>
           </div>
 

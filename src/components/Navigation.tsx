@@ -2,7 +2,8 @@ import React, { useState, useRef, useEffect } from 'react';
 import { SnapSellLogo } from './SnapSellLogo';
 import { X, ArrowUpRight } from 'lucide-react';
 import { ScrambleText, ScrambleHandle } from './ScrambleText';
-import { NAV_ROUTES, ROUTE_LABELS, hrefFor, type Route } from '../router';
+import { NAV_ROUTES, hrefFor, type Route } from '../router';
+import { useLanguage, type Lang } from '../i18n/LanguageContext';
 
 interface NavigationProps {
   navRef?: React.RefObject<HTMLDivElement | null>;
@@ -16,6 +17,26 @@ interface NavigationProps {
  * runs on touchstart and on mount when the mobile panel opens — otherwise
  * the scramble simply never appeared on a phone.
  */
+/** EN / DE pill toggle */
+const LangToggle: React.FC = () => {
+  const { lang, setLang } = useLanguage();
+  return (
+    <div className="flex items-center gap-0.5 bg-white/5 border border-white/10 rounded-md overflow-hidden text-[11px] font-semibold tracking-wide">
+      {(['en', 'de'] as Lang[]).map((l) => (
+        <button
+          key={l}
+          type="button"
+          onClick={() => setLang(l)}
+          className={`px-2.5 py-1 transition-colors ${lang === l ? 'bg-[#20B777] text-white' : 'text-slate-400 hover:text-white'}`}
+          aria-pressed={lang === l}
+        >
+          {l.toUpperCase()}
+        </button>
+      ))}
+    </div>
+  );
+};
+
 const ScrambleLink: React.FC<{
   route: Route;
   index: number;
@@ -25,7 +46,16 @@ const ScrambleLink: React.FC<{
   mountDelay?: number;
   onNavigate?: () => void;
 }> = ({ route, index, isActive, variant = 'bar', playOnMount = false, mountDelay = 0, onNavigate }) => {
+  const { t } = useLanguage();
   const scrambleRef = useRef<ScrambleHandle>(null);
+
+  const ROUTE_LABELS_T: Record<Route, string> = {
+    home: t.nav.home,
+    'how-it-works': t.nav.howItWorks,
+    payments: t.nav.payments,
+    business: t.nav.business,
+    contact: t.nav.contact,
+  };
 
   useEffect(() => {
     if (!playOnMount) return;
@@ -48,13 +78,14 @@ const ScrambleLink: React.FC<{
       onBlur={() => scrambleRef.current?.leave()}
     >
       <span className="nav-item-marker" aria-hidden="true" />
-      <ScrambleText ref={scrambleRef} text={ROUTE_LABELS[route]} />
+      <ScrambleText ref={scrambleRef} text={ROUTE_LABELS_T[route]} />
     </a>
   );
 };
 
 export const Navigation: React.FC<NavigationProps> = ({ navRef, activeRoute = 'home' }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const { t } = useLanguage();
 
   // Close the panel whenever the route changes
   useEffect(() => {
@@ -95,12 +126,14 @@ export const Navigation: React.FC<NavigationProps> = ({ navRef, activeRoute = 'h
           </div>
 
           <div className="nav-actions">
+            <LangToggle />
+
             <button id="nav-action-demo" type="button" className="nav-ghost-btn">
-              See Demo
+              {t.nav.seeDemo}
             </button>
 
             <button id="nav-action-start" type="button" className="nav-cta-btn group">
-              <span className="nav-cta-label">Start Selling</span>
+              <span className="nav-cta-label">{t.nav.startSelling}</span>
               <ArrowUpRight className="w-3.5 h-3.5 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
             </button>
 
@@ -140,11 +173,14 @@ export const Navigation: React.FC<NavigationProps> = ({ navRef, activeRoute = 'h
             ))}
 
             <div className="nav-mobile-actions">
+              <div className="flex justify-center pb-1">
+                <LangToggle />
+              </div>
               <button type="button" className="nav-ghost-btn w-full justify-center py-3">
-                See Demo
+                {t.nav.seeDemo}
               </button>
               <button type="button" className="nav-cta-btn w-full justify-center py-3">
-                Start Selling
+                {t.nav.startSelling}
               </button>
             </div>
           </div>

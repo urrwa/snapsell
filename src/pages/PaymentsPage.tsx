@@ -10,77 +10,43 @@ import {
 } from 'lucide-react';
 import { CreatorBenefitsSection } from '../components/CreatorBenefitsSection';
 import { FinalCtaSection } from '../components/FinalCtaSection';
-
-const PLANS = [
-  {
-    id: 'creator',
-    name: 'Creator',
-    price: '10%',
-    unit: 'per sale',
-    tagline: 'For individuals selling their own work.',
-    featured: true,
-    points: [
-      'No monthly subscription',
-      'Unlimited products and Paid Links',
-      'Automatic digital delivery',
-      'Sales and earnings dashboard',
-      'Payouts on the 1st and 15th',
-    ],
-  },
-  {
-    id: 'business',
-    name: 'Business',
-    price: 'Custom',
-    unit: 'volume based',
-    tagline: 'For agencies and teams managing multiple creators.',
-    featured: false,
-    points: [
-      'Everything in Creator',
-      'Team members and sub-accounts',
-      'Centralised management',
-      'API access and sale webhooks',
-      'Priority support',
-    ],
-  },
-];
-
-const DEDUCTIONS = [
-  {
-    icon: Percent,
-    title: 'Service fee',
-    body: 'SnapSell takes 10% of each completed sale. Nothing is charged when you do not sell.',
-  },
-  {
-    icon: CreditCard,
-    title: 'Payment processing',
-    body: 'The payment provider charges its own processing fee, which varies by method and country.',
-  },
-  {
-    icon: Calendar,
-    title: 'Payout schedule',
-    body: 'Eligible balances are paid twice monthly, once the minimum payout threshold is met.',
-  },
-  {
-    icon: ShieldCheck,
-    title: 'Refunds & chargebacks',
-    body: 'Refunded or charged-back orders are reversed, including the associated fees.',
-  },
-];
+import { useLanguage } from '../i18n/LanguageContext';
 
 /** Pricing + fee breakdown. Used on the Payments page and on the homepage,
  *  where the header's "Payments & Fees" link scrolls to it. */
 export function PaymentsSection({ className = '' }: { className?: string }) {
+  const { t } = useLanguage();
+
+  const PLANS = [
+    {
+      id: 'creator',
+      featured: true,
+      ...t.paymentsPage.plans.creator,
+    },
+    {
+      id: 'business',
+      featured: false,
+      ...t.paymentsPage.plans.business,
+    },
+  ];
+
+  const DEDUCTIONS = [
+    { icon: Percent, ...t.paymentsPage.deductions.serviceFee },
+    { icon: CreditCard, ...t.paymentsPage.deductions.paymentProcessing },
+    { icon: Calendar, ...t.paymentsPage.deductions.payoutSchedule },
+    { icon: ShieldCheck, ...t.paymentsPage.deductions.refunds },
+  ];
+
   return (
       <section id="payments-section" className={`page-section ${className}`}>
         <div className="page-shell">
           <header className="page-head">
-            <span className="page-eyebrow">PAYMENTS &amp; FEES</span>
+            <span className="page-eyebrow">{t.paymentsPage.eyebrow.toUpperCase()}</span>
             <h1 className="page-title">
-              You only pay when <span className="emerald-gradient-text">you get paid.</span>
+              {t.paymentsPage.headline1} <span className="emerald-gradient-text">{t.paymentsPage.headline2}</span>
             </h1>
             <p className="page-lede">
-              No monthly subscription for individual creators. SnapSell takes a share of
-              completed sales, and nothing at all when you do not sell.
+              {t.paymentsPage.description}
             </p>
           </header>
 
@@ -94,7 +60,7 @@ export function PaymentsSection({ className = '' }: { className?: string }) {
                 {plan.featured && (
                   <span className="pricing-flag">
                     <Sparkles className="w-3 h-3" />
-                    Most creators
+                    {t.paymentsPage.mostCreators}
                   </span>
                 )}
 
@@ -107,7 +73,7 @@ export function PaymentsSection({ className = '' }: { className?: string }) {
                 </div>
 
                 <ul className="pricing-points">
-                  {plan.points.map((p) => (
+                  {(plan.points as readonly string[]).map((p) => (
                     <li key={p}>
                       <span className="pricing-check">
                         <Check className="w-3 h-3 stroke-[3.5]" />
@@ -121,7 +87,7 @@ export function PaymentsSection({ className = '' }: { className?: string }) {
                   type="button"
                   className={plan.featured ? 'nav-cta-btn w-full justify-center py-3' : 'nav-ghost-btn w-full justify-center py-3'}
                 >
-                  {plan.featured ? 'Start Selling' : 'Talk to Sales'}
+                  {plan.featured ? t.paymentsPage.startSelling : t.paymentsPage.talkToSales}
                 </button>
               </article>
             ))}
@@ -145,11 +111,7 @@ export function PaymentsSection({ className = '' }: { className?: string }) {
 
           <p className="page-note">
             <Info className="w-4 h-4 shrink-0 text-[#4ED398]" />
-            <span>
-              Fees, thresholds and available payment methods depend on your country and
-              the supported payment provider. Exact figures are confirmed at checkout and
-              in your dashboard.
-            </span>
+            <span>{t.paymentsPage.note}</span>
           </p>
         </div>
       </section>

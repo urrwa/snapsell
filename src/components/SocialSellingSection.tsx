@@ -12,6 +12,7 @@ import {
   Sliders,
   Download,
 } from 'lucide-react';
+import { useLanguage } from '../i18n/LanguageContext';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -112,6 +113,7 @@ const PLATFORMS: PlatformItem[] = [
 
 export function SocialSellingSection() {
   const panelRef = useRef<HTMLDivElement>(null);
+  const { t } = useLanguage();
 
   useEffect(() => {
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -164,15 +166,15 @@ export function SocialSellingSection() {
           {/* HEADER */}
           <header className="social-selling-header max-w-4xl mx-auto text-center space-y-4 mb-10 sm:mb-14">
             <span className="section-eyebrow inline-block px-3.5 py-1 rounded-full bg-[#20B777]/10 border border-[#20B777]/22 text-[#7AE9B4] text-[11px] font-bold tracking-[0.25em] uppercase">
-              SOCIAL SELLING
+              {t.socialSellingSection.eyebrow.toUpperCase()}
             </span>
 
             <h2 className="text-3xl sm:text-5xl lg:text-7xl font-extrabold text-white tracking-tight leading-[1.02]">
-              Sell Wherever Your Audience Already Is
+              {t.socialSellingSection.headline}
             </h2>
 
             <p className="text-slate-300 text-base sm:text-xl max-w-2xl mx-auto font-normal leading-relaxed pt-1">
-              You do not need to move your followers to a complicated storefront.
+              {t.socialSellingSection.description}
             </p>
           </header>
 
