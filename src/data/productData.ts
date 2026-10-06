@@ -95,9 +95,9 @@ export const PRODUCTS: ProductCardData[] = [
     cover: 'facet',
     alt: 'Emerald Design Kit product preview',
     objectPosition: 'center 18%',
-    photo: 'images/product-kit-v2.webp',
-    photoPositionCard: 'center',
-    photoPositionPhone: 'center 40%',
+    photo: 'images/product-emerald-assets-v2.jpg',
+    photoPositionCard: 'center 45%',
+    photoPositionPhone: 'center 45%',
     badgeColor: 'bg-[#20B777]/10 text-[#7AE9B4] border-[#20B777]/25',
   },
 ];
