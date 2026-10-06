@@ -107,7 +107,7 @@ export function FooterSection() {
             </h3>
             <ul className="space-y-3 text-sm">
               <li>
-                <a href="#contact" className="text-slate-400 hover:text-[#7AE9B4] inline-block transition-all duration-200 hover:translate-x-1">
+                <a href="#/contact" className="text-slate-400 hover:text-[#7AE9B4] inline-block transition-all duration-200 hover:translate-x-1">
                   Contact Support
                 </a>
               </li>

@@ -36,7 +36,7 @@ export default function ContactPage({ className = '' }: { className?: string }) 
   };
 
   return (
-    <section id="contact-section" className={`page-section ${className}`}>
+    <section id="contact-section" className={`page-section min-h-[calc(100vh-104px)] ${className}`}>
       <div className="page-shell">
         <header className="page-head">
           <span className="page-eyebrow">CONTACT</span>

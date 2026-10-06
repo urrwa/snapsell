@@ -18,7 +18,6 @@ const OurTeamSection = lazy(() => import('../components/OurTeamSection').then((m
 const ContentTypesSection = lazy(() => import('../components/ContentTypesSection').then((m) => ({ default: m.ContentTypesSection })));
 const SocialSellingSection = lazy(() => import('../components/SocialSellingSection').then((m) => ({ default: m.SocialSellingSection })));
 const PaymentsSection = lazy(() => import('./PaymentsPage').then((m) => ({ default: m.PaymentsSection })));
-const ContactPage = lazy(() => import('./ContactPage'));
 const AgencyCrmSection = lazy(() => import('../components/AgencyCrmSection').then((m) => ({ default: m.AgencyCrmSection })));
 const FinalCtaSection = lazy(() => import('../components/FinalCtaSection').then((m) => ({ default: m.FinalCtaSection })));
 
@@ -632,7 +631,6 @@ export default function HomePage({ navRef, registerEntrance, registerWordLoop }:
       <DeferredSection minHeight={1300}><PaymentsSection className="border-t border-white/10" /></DeferredSection>
       <DeferredSection minHeight={1500}><AgencyCrmSection /></DeferredSection>
       <DeferredSection minHeight={1000}><FinalCtaSection /></DeferredSection>
-      <DeferredSection minHeight={900}><ContactPage className="border-t border-white/10" /></DeferredSection>
     </div>
   );
 }

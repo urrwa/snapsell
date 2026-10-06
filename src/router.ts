@@ -36,7 +36,6 @@ export const SECTION_FOR_ROUTE: Partial<Record<Route, string>> = {
   'how-it-works': 'how-it-works-section',
   payments: 'payments-section',
   business: 'agency-crm-section',
-  contact: 'contact-section',
 };
 
 /** Links that appear in the nav (home is reached via the logo). */
