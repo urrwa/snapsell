@@ -27,7 +27,7 @@ export const PRODUCTS: ProductCardData[] = [
     subtitle: '48 Editorial Raw Photos',
     price: '$29',
     salesCount: 142,
-    image: 'https://res.cloudinary.com/z8ule8ik/image/upload/v1786828453/3392_utfvxc.jpg',
+    image: 'https://images.unsplash.com/photo-1529139574466-a303027c1d8b?w=800&q=80&auto=format&fit=crop&crop=faces',
     cover: 'editorial',
     alt: 'Noir Fashion Vault product preview',
     objectPosition: 'center 14%',
