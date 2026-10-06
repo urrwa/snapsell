@@ -33,7 +33,7 @@ export const PRODUCTS: ProductCardData[] = [
     objectPosition: 'center 20%',
     photo: 'images/product-noir-muse-v2.jpg',
     photoPositionCard: 'center 25%',
-    photoPositionPhone: 'center top',
+    photoPositionPhone: 'center 20%',
     badgeColor: 'bg-[#20B777]/10 text-[#7AE9B4] border-[#20B777]/25',
   },
   {
