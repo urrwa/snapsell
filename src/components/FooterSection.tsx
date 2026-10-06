@@ -116,7 +116,7 @@ export function FooterSection() {
               </li>
               <li>
                 <a href="#business-accounts" className="text-slate-400 hover:text-[#7AE9B4] inline-block transition-all duration-200 hover:translate-x-1">
-                  {t.footer.business.headline}
+                  {t.business.headline}
                 </a>
               </li>
               <li>
