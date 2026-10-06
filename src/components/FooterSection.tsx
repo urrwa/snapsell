@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { ArrowUpRight, Mail, ArrowRight, Check } from 'lucide-react';
+import { SnapSellLogo } from './SnapSellLogo';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -86,12 +87,8 @@ export function FooterSection() {
           
           {/* Brand Column */}
           <div className="footer-anim-item space-y-4 md:col-span-2 lg:col-span-1">
-            <a href="#hero" className="inline-block transition-opacity hover:opacity-90">
-              <img
-                src="https://res.cloudinary.com/dpwfzo2vk/image/upload/v1785158302/Webforge_iwgtmf.png"
-                alt="SnapSell"
-                className="h-9 sm:h-10 w-auto object-contain"
-              />
+            <a href="#/" className="inline-block transition-opacity hover:opacity-90">
+              <SnapSellLogo className="h-8 sm:h-9 w-auto" />
             </a>
             <p className="text-slate-400 text-sm sm:text-base leading-relaxed max-w-[330px]">
               Built for creators. Upload digital content, share a link and get paid.
