@@ -273,6 +273,139 @@ function ShareAnimStage({ isVisible }: { isVisible: boolean }) {
     </div>
   );
 }
+/* ── Upload Animation Step ────────────────────────────────────────────────── */
+function UploadAnimStep({ isActive }: { isActive: boolean }) {
+  const [phase, setPhase] = useState<'idle'|'flying'|'progress'|'done'>('idle');
+  const [progress, setProgress] = useState(0);
+  const imgRef = useRef<HTMLImageElement>(null);
+  const dropZoneRef = useRef<HTMLDivElement>(null);
+  const prevActive = useRef(false);
+
+  useEffect(() => {
+    if (isActive && !prevActive.current) {
+      // Reset then start animation sequence
+      setPhase('idle');
+      setProgress(0);
+      const t1 = setTimeout(() => setPhase('flying'), 400);
+      const t2 = setTimeout(() => { setPhase('progress'); }, 1100);
+      // Animate progress 0→100 over 1200ms
+      const t3 = setTimeout(() => {
+        let p = 0;
+        const interval = setInterval(() => {
+          p += 2;
+          setProgress(p);
+          if (p >= 100) {
+            clearInterval(interval);
+            setPhase('done');
+          }
+        }, 24);
+      }, 1100);
+      prevActive.current = true;
+      return () => { clearTimeout(t1); clearTimeout(t2); clearTimeout(t3); };
+    }
+    if (!isActive) prevActive.current = false;
+  }, [isActive]);
+
+  return (
+    <div className="phone-step-content flex flex-col justify-between h-full pt-1">
+      <div className="space-y-2.5">
+        <div className="flex items-center gap-2">
+          <div className="p-1.5 rounded-lg bg-[#20B777]/10 border border-[#20B777]/25 text-[#4ED398]">
+            <UploadCloud className="w-4 h-4" />
+          </div>
+          <div>
+            <h4 className="text-xs font-bold text-white">Upload Digital Files</h4>
+            <p className="text-[9px] text-slate-400">Photos, Videos, PDFs, ZIPs</p>
+          </div>
+        </div>
+
+        {/* Drop zone */}
+        <div ref={dropZoneRef} className="relative border-2 border-dashed border-[#20B777]/30 bg-[#20B777]/5 rounded-xl p-3 text-center space-y-1.5 overflow-hidden">
+          {/* Flying image clone */}
+          {(phase === 'flying') && (
+            <img
+              src="images/product-fashion-v2.webp"
+              alt=""
+              aria-hidden
+              className="absolute pointer-events-none rounded-lg object-cover object-top"
+              style={{
+                width: 36, height: 48,
+                bottom: 4, left: '50%',
+                transform: 'translateX(-50%)',
+                animation: 'flyUp 0.65s cubic-bezier(0.22,1,0.36,1) forwards',
+                zIndex: 20,
+                opacity: 1,
+              }}
+            />
+          )}
+          <UploadCloud className={`w-6 h-6 text-[#4ED398] mx-auto ${phase === 'idle' ? 'animate-bounce' : ''}`} />
+          <p className="text-[10px] font-semibold text-slate-200">Drop files or click to select</p>
+          <div className="flex items-center justify-center gap-2 text-[8px] text-slate-400">
+            <span className="px-1.5 py-0.5 rounded bg-zinc-800 border border-white/10 flex items-center gap-0.5"><ImageIcon className="w-2.5 h-2.5" /> RAW</span>
+            <span className="px-1.5 py-0.5 rounded bg-zinc-800 border border-white/10 flex items-center gap-0.5"><Video className="w-2.5 h-2.5" /> MP4</span>
+            <span className="px-1.5 py-0.5 rounded bg-zinc-800 border border-white/10 flex items-center gap-0.5"><FileText className="w-2.5 h-2.5" /> PDF</span>
+            <span className="px-1.5 py-0.5 rounded bg-zinc-800 border border-white/10 flex items-center gap-0.5"><FileArchive className="w-2.5 h-2.5" /> ZIP</span>
+          </div>
+        </div>
+
+        {/* Progress bar */}
+        <div className="p-2 bg-zinc-900 border border-white/10 rounded-xl space-y-1.5">
+          <div className="flex items-center justify-between text-[9.5px]">
+            <span className="font-semibold text-slate-200 truncate max-w-[140px]">Creator_Photo_Collection.zip</span>
+            <span className="text-[#7AE9B4] font-bold">
+              {phase === 'done' ? '100% Uploaded' : phase === 'idle' ? '0%' : `${progress}%`}
+            </span>
+          </div>
+          <div className="w-full bg-zinc-800 h-1.5 rounded-full overflow-hidden">
+            <div
+              className="bg-[#20B777] h-full rounded-full transition-none"
+              style={{ width: `${phase === 'done' ? 100 : phase === 'idle' ? 0 : progress}%`, transition: phase === 'progress' ? 'none' : undefined }}
+            />
+          </div>
+        </div>
+
+        {/* Content Preview */}
+        <div>
+          <p className="text-[8px] font-semibold text-slate-400 uppercase tracking-widest mb-1 px-0.5">Content Preview</p>
+          <div
+            className="relative w-full rounded-xl overflow-hidden border-2 border-[#20B777]/50 shadow-[0_0_14px_rgba(32,183,119,0.18)]"
+            style={{
+              aspectRatio: '3/4',
+              maxHeight: '130px',
+              opacity: phase === 'done' ? 1 : phase === 'flying' ? 0.3 : phase === 'idle' ? 1 : 0.3,
+              transition: 'opacity 0.4s ease',
+            }}
+          >
+            <img
+              ref={imgRef}
+              src="images/product-fashion-v2.webp"
+              alt="Creator Photo Collection preview"
+              loading="lazy"
+              decoding="async"
+              className="w-full h-full object-cover object-top"
+            />
+            <div className="absolute inset-x-0 bottom-0 h-12 bg-gradient-to-t from-black/90 via-black/50 to-transparent pointer-events-none" />
+            <div className="absolute bottom-0 inset-x-0 px-2 pb-1.5 z-10">
+              <span className="text-[8.5px] font-bold text-white/95 tracking-tight leading-tight">Creator Photo Collection</span>
+            </div>
+            {/* Uploaded badge — fades in when done */}
+            <div
+              className="absolute top-1.5 right-1.5 z-10 px-1.5 py-0.5 rounded-md bg-[#20B777]/90 text-[7px] font-bold text-white shadow-sm"
+              style={{ opacity: phase === 'done' ? 1 : 0, transition: 'opacity 0.5s ease' }}
+            >
+              Uploaded ✓
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <button type="button" className="emerald-pill-btn w-full py-2 rounded-xl text-[10.5px] font-bold shadow-md flex items-center justify-center gap-1.5">
+        <span>Configure Product</span>
+        <ArrowRight className="w-3 h-3" />
+      </button>
+    </div>
+  );
+}
 /* ─────────────────────────────────────────────────────────────────────────── */
 
 export function HowItWorksSection() {
@@ -457,70 +590,7 @@ export function HowItWorksSection() {
         );
 
       case 1:
-        return (
-          <div className="phone-step-content flex flex-col justify-between h-full pt-1">
-            <div className="space-y-2.5">
-              <div className="flex items-center gap-2">
-                <div className="p-1.5 rounded-lg bg-[#20B777]/10 border border-[#20B777]/25 text-[#4ED398]">
-                  <UploadCloud className="w-4 h-4" />
-                </div>
-                <div>
-                  <h4 className="text-xs font-bold text-white">Upload Digital Files</h4>
-                  <p className="text-[9px] text-slate-400">Photos, Videos, PDFs, ZIPs</p>
-                </div>
-              </div>
-
-              <div className="border-2 border-dashed border-[#20B777]/30 bg-[#20B777]/5 rounded-xl p-3 text-center space-y-1.5">
-                <UploadCloud className="w-6 h-6 text-[#4ED398] mx-auto animate-bounce" />
-                <p className="text-[10px] font-semibold text-slate-200">Drop files or click to select</p>
-                <div className="flex items-center justify-center gap-2 text-[8px] text-slate-400">
-                  <span className="px-1.5 py-0.5 rounded bg-zinc-800 border border-white/10 flex items-center gap-0.5"><ImageIcon className="w-2.5 h-2.5" /> RAW</span>
-                  <span className="px-1.5 py-0.5 rounded bg-zinc-800 border border-white/10 flex items-center gap-0.5"><Video className="w-2.5 h-2.5" /> MP4</span>
-                  <span className="px-1.5 py-0.5 rounded bg-zinc-800 border border-white/10 flex items-center gap-0.5"><FileText className="w-2.5 h-2.5" /> PDF</span>
-                  <span className="px-1.5 py-0.5 rounded bg-zinc-800 border border-white/10 flex items-center gap-0.5"><FileArchive className="w-2.5 h-2.5" /> ZIP</span>
-                </div>
-              </div>
-
-              <div className="p-2 bg-zinc-900 border border-white/10 rounded-xl space-y-1.5">
-                <div className="flex items-center justify-between text-[9.5px]">
-                  <span className="font-semibold text-slate-200 truncate max-w-[140px]">Creator_Photo_Collection.zip</span>
-                  <span className="text-[#7AE9B4] font-bold">100% Uploaded</span>
-                </div>
-                <div className="w-full bg-zinc-800 h-1.5 rounded-full overflow-hidden">
-                  <div className="bg-[#20B777] h-full w-full rounded-full" />
-                </div>
-              </div>
-
-              {/* Content Preview */}
-              <div>
-                <p className="text-[8px] font-semibold text-slate-400 uppercase tracking-widest mb-1 px-0.5">Content Preview</p>
-                <div className="relative w-full rounded-xl overflow-hidden border-2 border-[#20B777]/50 shadow-[0_0_14px_rgba(32,183,119,0.18)]" style={{aspectRatio:'3/4', maxHeight:'130px'}}>
-                  <img
-                    src="images/product-fashion-v2.webp"
-                    alt="Creator Photo Collection preview"
-                    loading="lazy"
-                    decoding="async"
-                    className="w-full h-full object-cover object-top"
-                  />
-                  {/* Bottom gradient + title */}
-                  <div className="absolute inset-x-0 bottom-0 h-12 bg-gradient-to-t from-black/90 via-black/50 to-transparent pointer-events-none" />
-                  <div className="absolute bottom-0 inset-x-0 px-2 pb-1.5 z-10">
-                    <span className="text-[8.5px] font-bold text-white/95 tracking-tight leading-tight">Creator Photo Collection</span>
-                  </div>
-                  {/* Uploaded badge */}
-                  <div className="absolute top-1.5 right-1.5 z-10 px-1.5 py-0.5 rounded-md bg-[#20B777]/90 text-[7px] font-bold text-white shadow-sm">
-                    Uploaded ✓
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <button type="button" className="emerald-pill-btn w-full py-2 rounded-xl text-[10.5px] font-bold shadow-md flex items-center justify-center gap-1.5">
-              <span>Configure Product</span>
-              <ArrowRight className="w-3 h-3" />
-            </button>
-          </div>
-        );
+        return <UploadAnimStep isActive={activeStepIndex === 1} />;
 
       case 2:
         return (

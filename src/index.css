@@ -3998,3 +3998,10 @@ section {
 @media (prefers-reduced-motion: reduce) {
   .crm-panel, .crm-feature, .crm-side-item { transition: none; }
 }
+
+/* ── Upload step: fly-up animation ─────────────────────────────────────── */
+@keyframes flyUp {
+  0%   { transform: translateX(-50%) translateY(0) scale(1); opacity: 1; }
+  60%  { transform: translateX(-50%) translateY(-90px) scale(0.7); opacity: 0.9; }
+  100% { transform: translateX(-50%) translateY(-130px) scale(0.3); opacity: 0; }
+}
