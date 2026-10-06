@@ -290,29 +290,69 @@ export function HowItWorksSection() {
         return (
           <div className="phone-step-content flex flex-col justify-between h-full pt-1 pb-0.5 gap-1.5">
             <div className="space-y-2 flex-1 flex flex-col justify-between min-h-0">
-              {/* Uploaded Product Image Preview Card - Wide Aspect Ratio matching Reference Image */}
-              <div className="relative w-full aspect-[16/9.5] rounded-xl sm:rounded-2xl overflow-hidden border-2 border-[#20B777]/40 shadow-[0_0_15px_rgba(32,183,119,0.2)] bg-zinc-950 shrink-0 group">
-                <img 
-                  src="images/step-upload-slides.webp"
-                  alt="Uploaded content preview: colour slides on a light box"
-                  loading="lazy"
-                  className="w-full h-full object-cover object-[center_48%]"
-                  decoding="async"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/10 to-transparent pointer-events-none" />
-                
-                {/* Top-Left Content Uploaded Badge */}
-                <div className="absolute top-2 left-2">
+              {/* ── Cinematic LUT Preset Pack Cover — Before / After ─────────── */}
+              <div className="relative w-full aspect-[16/9.5] rounded-xl sm:rounded-2xl overflow-hidden border-2 border-[#20B777]/40 shadow-[0_0_15px_rgba(32,183,119,0.2)] bg-zinc-950 shrink-0">
+
+                {/* ── BEFORE half (left 50%, desaturated/muted) ── */}
+                <div className="absolute inset-0 w-1/2 overflow-hidden">
+                  <img
+                    src="https://images.unsplash.com/photo-1761835454512-07185e83f2a4?fm=jpg&q=75&w=800&auto=format&fit=crop"
+                    alt=""
+                    aria-hidden="true"
+                    loading="lazy"
+                    decoding="async"
+                    className="absolute inset-0 w-[200%] max-w-none h-full object-cover object-[20%_40%]"
+                    style={{ filter: 'saturate(0.3) brightness(0.75) contrast(0.9)' }}
+                  />
+                  {/* "Before" label */}
+                  <span className="absolute top-1.5 left-1.5 text-[7.5px] font-bold tracking-widest uppercase text-white/60 bg-black/50 px-1.5 py-0.5 rounded">Before</span>
+                </div>
+
+                {/* ── AFTER half (right 50%, emerald cinematic grade) ── */}
+                <div className="absolute inset-0 left-1/2 overflow-hidden">
+                  <img
+                    src="https://images.unsplash.com/photo-1761835454512-07185e83f2a4?fm=jpg&q=75&w=800&auto=format&fit=crop"
+                    alt="Forest mist — after cinematic LUT"
+                    loading="lazy"
+                    decoding="async"
+                    className="absolute inset-0 w-[200%] max-w-none h-full object-cover object-[20%_40%]"
+                    style={{
+                      left: '-100%',
+                      filter: 'saturate(1.35) brightness(0.82) contrast(1.12) hue-rotate(-8deg)',
+                    }}
+                  />
+                  {/* emerald colour grade overlay */}
+                  <div className="absolute inset-0 bg-[#0d3326]/30 mix-blend-multiply pointer-events-none" />
+                  {/* "After" label */}
+                  <span className="absolute top-1.5 right-1.5 text-[7.5px] font-bold tracking-widest uppercase text-[#7AE9B4] bg-black/55 px-1.5 py-0.5 rounded">After</span>
+                </div>
+
+                {/* ── Centre divider line ── */}
+                <div className="absolute inset-y-0 left-1/2 w-px bg-white/30 pointer-events-none" />
+                {/* ── Centre drag handle ── */}
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-4 h-4 rounded-full bg-white/90 border border-white/40 shadow-md flex items-center justify-center pointer-events-none">
+                  <div className="w-1 h-1 rounded-full bg-zinc-700" />
+                </div>
+
+                {/* ── Top-left badge ── */}
+                <div className="absolute top-2 left-2 z-10">
                   <div className="px-2 py-0.5 rounded-md bg-black/75 border border-[#20B777]/40 text-[#7AE9B4] text-[8.5px] font-bold flex items-center gap-1 shadow-sm">
                     <CheckCircle2 className="w-2.5 h-2.5 text-[#4ED398]" />
                     <span>Content Uploaded</span>
                   </div>
                 </div>
-                
-                {/* Bottom Filename & Type Badges */}
-                <div className="absolute bottom-2 left-2 right-2 flex items-center justify-between text-[8.5px] font-medium text-white/95">
-                  <span className="truncate max-w-[130px] font-mono text-[8.5px]">Cinematic_Preset_Pack.zip</span>
-                  <span className="px-2 py-0.5 rounded-md bg-black/80 border border-white/15 text-[8px] font-semibold text-[#7AE9B4]">RAW Presets</span>
+
+                {/* ── Bottom gradient + title + badges ── */}
+                <div className="absolute inset-x-0 bottom-0 h-14 bg-gradient-to-t from-black/90 via-black/55 to-transparent pointer-events-none" />
+                <div className="absolute bottom-0 inset-x-0 px-2 pb-1.5 z-10 flex flex-col gap-0.5">
+                  <span className="text-[9px] font-bold text-white/95 tracking-tight leading-tight truncate">Cinematic LUTs & Presets</span>
+                  <div className="flex items-center justify-between">
+                    <span className="font-mono text-[8px] text-white/60 truncate max-w-[110px]">Cinematic_Preset_Pack.zip</span>
+                    <div className="flex items-center gap-1 shrink-0">
+                      <span className="px-1.5 py-0.5 rounded-md bg-black/80 border border-white/15 text-[7.5px] font-semibold text-[#7AE9B4]">LUTs + Presets</span>
+                      <span className="px-1.5 py-0.5 rounded-md bg-[#20B777]/20 border border-[#20B777]/30 text-[7px] font-semibold text-[#7AE9B4]">Digital · ZIP</span>
+                    </div>
+                  </div>
                 </div>
               </div>
 
