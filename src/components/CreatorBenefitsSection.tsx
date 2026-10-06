@@ -49,7 +49,7 @@ export function CreatorBenefitsSection() {
       shortLabel: card.shortLabel,
       title: card.title,
       description: card.description,
-      bullets: b.bullets,
+      bullets: (card as { bullets?: string[] }).bullets ?? b.bullets,
       icon: b.icon,
       x: b.x,
       y: b.y,
