@@ -270,11 +270,34 @@ export function HowItWorksSection() {
 
               <div className="p-2 bg-zinc-900 border border-white/10 rounded-xl space-y-1.5">
                 <div className="flex items-center justify-between text-[9.5px]">
-                  <span className="font-semibold text-slate-200 truncate max-w-[140px]">Cinematic_Preset_Pack.zip</span>
+                  <span className="font-semibold text-slate-200 truncate max-w-[140px]">Creator_Photo_Collection.zip</span>
                   <span className="text-[#7AE9B4] font-bold">100% Uploaded</span>
                 </div>
                 <div className="w-full bg-zinc-800 h-1.5 rounded-full overflow-hidden">
                   <div className="bg-[#20B777] h-full w-full rounded-full" />
+                </div>
+              </div>
+
+              {/* Content Preview */}
+              <div>
+                <p className="text-[8px] font-semibold text-slate-400 uppercase tracking-widest mb-1 px-0.5">Content Preview</p>
+                <div className="relative w-full rounded-xl overflow-hidden border-2 border-[#20B777]/50 shadow-[0_0_14px_rgba(32,183,119,0.18)]" style={{aspectRatio:'3/4', maxHeight:'130px'}}>
+                  <img
+                    src="images/product-fashion-v2.webp"
+                    alt="Creator Photo Collection preview"
+                    loading="lazy"
+                    decoding="async"
+                    className="w-full h-full object-cover object-top"
+                  />
+                  {/* Bottom gradient + title */}
+                  <div className="absolute inset-x-0 bottom-0 h-12 bg-gradient-to-t from-black/90 via-black/50 to-transparent pointer-events-none" />
+                  <div className="absolute bottom-0 inset-x-0 px-2 pb-1.5 z-10">
+                    <span className="text-[8.5px] font-bold text-white/95 tracking-tight leading-tight">Creator Photo Collection</span>
+                  </div>
+                  {/* Uploaded badge */}
+                  <div className="absolute top-1.5 right-1.5 z-10 px-1.5 py-0.5 rounded-md bg-[#20B777]/90 text-[7px] font-bold text-white shadow-sm">
+                    Uploaded ✓
+                  </div>
                 </div>
               </div>
             </div>
@@ -290,49 +313,16 @@ export function HowItWorksSection() {
         return (
           <div className="phone-step-content flex flex-col justify-between h-full pt-1 pb-0.5 gap-1.5">
             <div className="space-y-2 flex-1 flex flex-col justify-between min-h-0">
-              {/* ── Cinematic LUT Preset Pack Cover — Before / After ─────────── */}
+              {/* ── Creator Photo Collection Cover ─────────── */}
               <div className="relative w-full aspect-[16/9.5] rounded-xl sm:rounded-2xl overflow-hidden border-2 border-[#20B777]/40 shadow-[0_0_15px_rgba(32,183,119,0.2)] bg-zinc-950 shrink-0">
 
-                {/* ── BEFORE half (left 50%, desaturated/muted) ── */}
-                <div className="absolute inset-0 w-1/2 overflow-hidden">
-                  <img
-                    src="https://images.unsplash.com/photo-1761835454512-07185e83f2a4?fm=jpg&q=75&w=800&auto=format&fit=crop"
-                    alt=""
-                    aria-hidden="true"
-                    loading="lazy"
-                    decoding="async"
-                    className="absolute inset-0 w-[200%] max-w-none h-full object-cover object-[20%_40%]"
-                    style={{ filter: 'saturate(0.3) brightness(0.75) contrast(0.9)' }}
-                  />
-                  {/* "Before" label */}
-                  <span className="absolute top-1.5 left-1.5 text-[7.5px] font-bold tracking-widest uppercase text-white/60 bg-black/50 px-1.5 py-0.5 rounded">Before</span>
-                </div>
-
-                {/* ── AFTER half (right 50%, emerald cinematic grade) ── */}
-                <div className="absolute inset-0 left-1/2 overflow-hidden">
-                  <img
-                    src="https://images.unsplash.com/photo-1761835454512-07185e83f2a4?fm=jpg&q=75&w=800&auto=format&fit=crop"
-                    alt="Forest mist — after cinematic LUT"
-                    loading="lazy"
-                    decoding="async"
-                    className="absolute inset-0 w-[200%] max-w-none h-full object-cover object-[20%_40%]"
-                    style={{
-                      left: '-100%',
-                      filter: 'saturate(1.35) brightness(0.82) contrast(1.12) hue-rotate(-8deg)',
-                    }}
-                  />
-                  {/* emerald colour grade overlay */}
-                  <div className="absolute inset-0 bg-[#0d3326]/30 mix-blend-multiply pointer-events-none" />
-                  {/* "After" label */}
-                  <span className="absolute top-1.5 right-1.5 text-[7.5px] font-bold tracking-widest uppercase text-[#7AE9B4] bg-black/55 px-1.5 py-0.5 rounded">After</span>
-                </div>
-
-                {/* ── Centre divider line ── */}
-                <div className="absolute inset-y-0 left-1/2 w-px bg-white/30 pointer-events-none" />
-                {/* ── Centre drag handle ── */}
-                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-4 h-4 rounded-full bg-white/90 border border-white/40 shadow-md flex items-center justify-center pointer-events-none">
-                  <div className="w-1 h-1 rounded-full bg-zinc-700" />
-                </div>
+                <img
+                  src="images/product-fashion-v2.webp"
+                  alt="Creator Photo Collection"
+                  loading="lazy"
+                  decoding="async"
+                  className="absolute inset-0 w-full h-full object-cover object-top"
+                />
 
                 {/* ── Top-left badge ── */}
                 <div className="absolute top-2 left-2 z-10">
@@ -345,11 +335,11 @@ export function HowItWorksSection() {
                 {/* ── Bottom gradient + title + badges ── */}
                 <div className="absolute inset-x-0 bottom-0 h-14 bg-gradient-to-t from-black/90 via-black/55 to-transparent pointer-events-none" />
                 <div className="absolute bottom-0 inset-x-0 px-2 pb-1.5 z-10 flex flex-col gap-0.5">
-                  <span className="text-[9px] font-bold text-white/95 tracking-tight leading-tight truncate">Cinematic LUTs & Presets</span>
+                  <span className="text-[9px] font-bold text-white/95 tracking-tight leading-tight truncate">Creator Photo Collection</span>
                   <div className="flex items-center justify-between">
-                    <span className="font-mono text-[8px] text-white/60 truncate max-w-[110px]">Cinematic_Preset_Pack.zip</span>
+                    <span className="font-mono text-[8px] text-white/60 truncate max-w-[110px]">Creator_Photo_Collection.zip</span>
                     <div className="flex items-center gap-1 shrink-0">
-                      <span className="px-1.5 py-0.5 rounded-md bg-black/80 border border-white/15 text-[7.5px] font-semibold text-[#7AE9B4]">LUTs + Presets</span>
+                      <span className="px-1.5 py-0.5 rounded-md bg-black/80 border border-white/15 text-[7.5px] font-semibold text-[#7AE9B4]">Photo Pack</span>
                       <span className="px-1.5 py-0.5 rounded-md bg-[#20B777]/20 border border-[#20B777]/30 text-[7px] font-semibold text-[#7AE9B4]">Digital · ZIP</span>
                     </div>
                   </div>
