@@ -327,14 +327,14 @@ export function CreatorBenefitsSection() {
             href="#"
             className="w-full sm:w-auto px-8 py-3.5 rounded-full emerald-pill-btn text-zinc-950 font-bold text-sm shadow-[0_0_25px_rgba(32,183,119,0.25)] hover:shadow-[0_0_35px_rgba(32,183,119,0.35)] transition-all transform hover:-translate-y-0.5 flex items-center justify-center gap-2 group"
           >
-            <span>Start Selling</span>
+            <span>{t.hero.startSelling}</span>
             <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
           </a>
           <a
             href="#"
             className="w-full sm:w-auto px-8 py-3.5 rounded-full bg-white/5 border border-white/15 text-white font-semibold text-sm hover:bg-white/10 hover:border-white/30 transition-all flex items-center justify-center gap-2"
           >
-            <span>See How SnapSell Works</span>
+            <span>{t.hero.seeHowItWorks}</span>
           </a>
         </div>
 
